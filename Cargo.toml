@@ -11,7 +11,7 @@
 
 [workspace]
 resolver = "2"
-members = []
+members = ["crates/embed-core"]
 
 [workspace.package]
 version = "0.1.0"
