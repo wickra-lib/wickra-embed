@@ -1,0 +1,9 @@
+/target
+/fuzz/target
+/fuzz/Cargo.lock
+examples/*/target
+bindings/c/*.a
+bindings/c/*.so
+bindings/c/*.dll
+*.o
+/tmp

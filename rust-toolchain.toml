@@ -1,0 +1,9 @@
+# Pinned toolchain + the bare-metal targets the no_std core is cross-compiled
+# against. CI and local checkouts pull these targets automatically, so
+# `cargo build -p embed-core --no-default-features --target thumbv7em-none-eabihf`
+# works without a manual `rustup target add`.
+[toolchain]
+channel = "1.86"
+components = ["rustfmt", "clippy"]
+targets = ["thumbv7em-none-eabihf", "thumbv6m-none-eabi"]
+profile = "minimal"

@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "wickra-embed"
+abstract: >-
+  An allocation-free, no_std streaming-indicator engine for bare-metal and HFT
+  hardware: fixed-latency, O(1) updates with no heap, cross-compiled to
+  Cortex-M targets and byte-for-byte identical to the std wickra-core.
+type: software
+authors:
+  - alias: kingchenc
+    website: "https://wickra.org"
+repository-code: "https://github.com/wickra-lib/wickra-embed"
+url: "https://wickra.org"
+license:
+  - MIT
+  - Apache-2.0
+keywords:
+  - trading
+  - indicators
+  - no-std
+  - embedded
+  - streaming

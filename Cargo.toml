@@ -1,0 +1,60 @@
+# Wickra Embed — workspace.
+# An allocation-free, `#![no_std]` streaming-indicator engine for bare-metal and
+# HFT hardware: fixed-latency, O(1) updates with no heap, byte-for-byte identical
+# to the std `wickra-core`. The verified no-alloc subset lives in `embed-core`;
+# `wickra-core` is a dev-only parity oracle, never a runtime dependency.
+#
+# The `members` list grows as crates are added, phase by phase; the final set is:
+#   crates/embed-core, crates/embed-bench, bindings/c
+# examples/* and fuzz are their own (partly detached / no_std) workspaces so that
+# `--all-targets` never forces std onto them.
+
+[workspace]
+resolver = "2"
+members = []
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.86"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/wickra-lib/wickra-embed"
+homepage = "https://wickra.org"
+authors = ["wickra-lib"]
+
+[workspace.dependencies]
+# no_std / no-alloc building blocks.
+heapless = "0.8"
+libm = "0.2"
+# C ABI header generation.
+cbindgen = "0.27"
+# Test/bench (host only).
+criterion = "0.5"
+proptest = "1"
+# Parity oracle — the std reference the no-alloc subset is checked byte-for-byte
+# against. Used ONLY under [dev-dependencies] in embed-core, never in the core path.
+wickra-core = "0.9"
+
+[workspace.lints.rust]
+# The core and all crates are safe Rust; the C ABI hub re-allows unsafe locally
+# (it must call across the FFI boundary).
+unsafe_code = "forbid"
+
+[workspace.lints.clippy]
+all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+# Allowed pedantic lints (same precedent as the wickra core).
+cast_precision_loss = "allow"
+cast_sign_loss = "allow"
+cast_possible_truncation = "allow"
+module_name_repetitions = "allow"
+missing_errors_doc = "allow"
+missing_panics_doc = "allow"
+must_use_candidate = "allow"
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+opt-level = "z"
