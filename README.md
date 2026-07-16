@@ -72,9 +72,9 @@ Cortex-M example are built out.
 - [ARCHITECTURE.md](ARCHITECTURE.md) — the layers and the no-alloc design.
 - [docs/NO_STD.md](docs/NO_STD.md) — no_std / no-alloc design, ports, panic handler, targets.
 - [docs/INDICATORS.md](docs/INDICATORS.md) — the v0.1 subset and how to extend it.
-- [docs/C_ABI.md](docs/C_ABI.md) — the no-alloc C ABI handle contract.
 - [docs/PARITY.md](docs/PARITY.md) — the byte-parity moat against `wickra-core`.
-- [docs/LATENCY.md](docs/LATENCY.md) — how latency is measured.
+- The no-alloc C ABI handle contract (`docs/C_ABI.md`) and latency methodology
+  (`docs/LATENCY.md`) land with the C ABI and benchmark phases.
 
 ## Contributing
 
