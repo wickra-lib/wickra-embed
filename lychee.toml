@@ -22,4 +22,7 @@ exclude = [
     "^https?://127\\.0\\.0\\.1",
     "example\\.com",
     "^https?://crates\\.io/crates/embed-core",
+    # Workflow status badges resolve only once the workflow exists on the default
+    # branch and has run; they 404 when checked from a feature branch pre-merge.
+    "github\\.com/wickra-lib/wickra-embed/actions",
 ]

@@ -5,7 +5,6 @@
 # wickra-embed
 
 [![CI](https://github.com/wickra-lib/wickra-embed/actions/workflows/ci.yml/badge.svg)](https://github.com/wickra-lib/wickra-embed/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/wickra-lib/wickra-embed/actions/workflows/codeql.yml/badge.svg)](https://github.com/wickra-lib/wickra-embed/actions/workflows/codeql.yml)
 [![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](#license)
 [![no_std](https://img.shields.io/badge/no__std-yes-success.svg)](docs/NO_STD.md)
 [![targets: thumbv7em / thumbv6m](https://img.shields.io/badge/targets-thumbv7em%20%7C%20thumbv6m-informational.svg)](docs/NO_STD.md)
