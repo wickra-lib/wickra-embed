@@ -274,6 +274,8 @@ jobs:
       # the runners have no qemu-system-arm.
       - name: Build the Cortex-M demo firmware
         run: cargo build --release --manifest-path examples/embedded/Cargo.toml
+
+  links:
     name: External links (lychee)
     runs-on: ubuntu-latest
     timeout-minutes: 15
