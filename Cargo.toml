@@ -11,7 +11,7 @@
 
 [workspace]
 resolver = "2"
-members = ["crates/embed-core"]
+members = ["crates/embed-core", "bindings/c"]
 
 [workspace.package]
 version = "0.1.0"
@@ -23,6 +23,10 @@ homepage = "https://wickra.org"
 authors = ["wickra-lib"]
 
 [workspace.dependencies]
+# The no-alloc core, referenced by the C ABI via `workspace = true`. Declared
+# with an explicit version (plus path) so it is not treated as a wildcard
+# dependency by `cargo-deny`.
+embed-core = { version = "0.1.0", path = "crates/embed-core", default-features = false }
 # no_std / no-alloc building blocks.
 heapless = "0.8"
 libm = "0.2"
