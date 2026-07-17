@@ -1,0 +1,25 @@
+[package]
+name = "embed-bench"
+description = "Criterion latency benchmarks for the allocation-free embed-core indicators: per-update cost for Sma/Ema/Rsi/Atr/Roc and the worst-case rolling-sum reseed tick."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+publish = false
+
+[lints]
+workspace = true
+
+[dependencies]
+# The no-alloc core under measurement. `std` is on here (host bench harness);
+# the bare-metal path is identical arithmetic, only the panic/runtime differs.
+embed-core = { workspace = true }
+
+[dev-dependencies]
+criterion = { workspace = true }
+
+[[bench]]
+name = "update_latency"
+harness = false
