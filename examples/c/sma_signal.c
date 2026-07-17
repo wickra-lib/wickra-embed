@@ -12,7 +12,6 @@
 
 #include <assert.h>
 #include <stdalign.h>
-#include <stddef.h>
 #include <stdio.h>
 
 #include "wickra_embed.h"
@@ -20,6 +19,12 @@
 /* Comfortably above any real SMA(20) handle on 32/64-bit targets; checked at
  * runtime against wickra_sma_size(). */
 #define HANDLE_CAP 512
+
+/* A fixed over-alignment for the handle buffer. 16 covers the alignment of any
+ * scalar the handle can hold on 32/64-bit targets; checked at runtime against
+ * wickra_sma_align(). Using a constant keeps this portable — MSVC's C library
+ * does not define max_align_t. */
+#define HANDLE_ALIGN 16
 
 static double price(int i) {
     /* A drifting, oscillating path so the crossover actually flips. */
@@ -31,9 +36,9 @@ int main(void) {
 
     /* Verify the runtime handle fits our stack buffer before using it. */
     assert(wickra_sma_size() <= HANDLE_CAP);
-    assert(wickra_sma_align() <= alignof(max_align_t));
+    assert(wickra_sma_align() <= HANDLE_ALIGN);
 
-    alignas(max_align_t) unsigned char storage[HANDLE_CAP];
+    alignas(HANDLE_ALIGN) unsigned char storage[HANDLE_CAP];
     WickraSma *sma = (WickraSma *) storage;
 
     int rc = wickra_sma_init(sma);
@@ -54,10 +59,11 @@ int main(void) {
         }
     }
 
-    /* SMA(20) warms up for 20 inputs, so 60 - 20 = 40 warm bars. */
+    /* SMA(N) emits its first value on the N-th input, so over 60 bars there are
+     * 60 - N + 1 warm bars (41 for N = 20). */
     printf("\n%d warm bars, warmup = %u, no heap used\n", warm_bars,
            (unsigned) wickra_sma_warmup(sma));
 
-    assert(warm_bars == 60 - (int) wickra_sma_warmup(sma));
+    assert(warm_bars == 60 - (int) wickra_sma_warmup(sma) + 1);
     return 0;
 }
