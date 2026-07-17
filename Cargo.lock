@@ -391,6 +391,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "wickra-embed-c"
+version = "0.1.0"
+dependencies = [
+ "embed-core",
+]
+
+[[package]]
 name = "windows-link"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"

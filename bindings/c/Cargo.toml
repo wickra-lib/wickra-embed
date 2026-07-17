@@ -1,0 +1,47 @@
+[package]
+name = "wickra-embed-c"
+description = "No-alloc C ABI (cdylib + staticlib) for wickra-embed — stack/static handles, byte-parity with wickra-core, usable from bare-metal C/C++ firmware."
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+readme = "README.md"
+publish = false
+
+[lib]
+name = "wickra_embed"
+crate-type = ["cdylib", "staticlib"]
+
+[features]
+# `std` (default) forwards to the core's std path so the host cdylib/staticlib
+# links a panic handler and the unit tests run. A firmware build links the
+# staticlib with `--no-default-features`; the firmware then provides the panic
+# handler and the core takes its `libm` path (byte-identical to std).
+default = ["std"]
+std = ["embed-core/std"]
+
+[dependencies]
+# The no-alloc core, without its default `std` feature — the C ABI is `no_std`
+# when the firmware asks for it (see the `std` feature above).
+embed-core = { path = "../../crates/embed-core", default-features = false }
+
+# The C ABI inherently needs `unsafe` (raw pointers across the FFI boundary); the
+# workspace forbids it everywhere else, so this crate re-allows it locally. The
+# clippy set mirrors the workspace with the usual FFI-cast exemptions.
+[lints.rust]
+unsafe_code = "allow"
+
+[lints.clippy]
+all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+module_name_repetitions = "allow"
+must_use_candidate = "allow"
+missing_errors_doc = "allow"
+missing_panics_doc = "allow"
+missing_safety_doc = "allow"
+cast_precision_loss = "allow"
+cast_sign_loss = "allow"
+cast_possible_truncation = "allow"
