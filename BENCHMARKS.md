@@ -21,16 +21,27 @@ tracked here.
 ## Results
 
 Numbers land as the bench crate (phase P5) and the Cortex-M example (phase P6) are
-built out. Until then this table is a placeholder describing what will be
-reported, not measured figures.
+built out. The host column below is measured (`cargo bench -p embed-bench`,
+criterion median on x86-64 local dev, rounded — indicative, not a CI-pinned
+regression gate; the nightly `bench.yml` tracks drift). The Cortex-M column lands
+with the QEMU example (phase P6).
 
-| Indicator | Host (ns/update) | Cortex-M4F (cycles/update) | Allocations |
-|-----------|------------------|----------------------------|-------------|
-| `Sma`     | _pending_        | _pending_                  | 0           |
-| `Ema`     | _pending_        | _pending_                  | 0           |
-| `Rsi`     | _pending_        | _pending_                  | 0           |
-| `Atr`     | _pending_        | _pending_                  | 0           |
-| `Roc`     | _pending_        | _pending_                  | 0           |
+| Indicator  | Host (ns/update) | Cortex-M4F (cycles/update) | Allocations |
+|------------|------------------|----------------------------|-------------|
+| `Sma<5>`   | ~14              | _pending_                  | 0           |
+| `Sma<20>`  | ~14              | _pending_                  | 0           |
+| `Sma<50>`  | ~14              | _pending_                  | 0           |
+| `Ema` (20) | ~13              | _pending_                  | 0           |
+| `Rsi<14>`  | ~17              | _pending_                  | 0           |
+| `Atr<14>`  | ~42              | _pending_                  | 0           |
+| `Roc<10>`  | ~13              | _pending_                  | 0           |
+
+`Sma` cost is flat across window sizes (5/20/50): the rolling sum is O(1)
+regardless of window, which only sets the ring-buffer length. The worst-case tick
+is the rolling-sum reseed every `RECOMPUTE_EVERY = 16` updates; the
+`reseed/sma_20_16tick_cycle` bench times a full 16-update cycle (one reseed
+included) at ~220 ns, i.e. ~14 ns/update amortised — the reseed stays inside the
+bounded-latency budget.
 
 ## Reproducing
 
