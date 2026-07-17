@@ -5,7 +5,6 @@
 # wickra-embed
 
 [![CI](https://github.com/wickra-lib/wickra-embed/actions/workflows/ci.yml/badge.svg)](https://github.com/wickra-lib/wickra-embed/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/wickra-lib/wickra-embed/actions/workflows/codeql.yml/badge.svg)](https://github.com/wickra-lib/wickra-embed/actions/workflows/codeql.yml)
 [![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](#license)
 [![no_std](https://img.shields.io/badge/no__std-yes-success.svg)](docs/NO_STD.md)
 [![targets: thumbv7em / thumbv6m](https://img.shields.io/badge/targets-thumbv7em%20%7C%20thumbv6m-informational.svg)](docs/NO_STD.md)
@@ -72,9 +71,9 @@ Cortex-M example are built out.
 - [ARCHITECTURE.md](ARCHITECTURE.md) — the layers and the no-alloc design.
 - [docs/NO_STD.md](docs/NO_STD.md) — no_std / no-alloc design, ports, panic handler, targets.
 - [docs/INDICATORS.md](docs/INDICATORS.md) — the v0.1 subset and how to extend it.
-- [docs/C_ABI.md](docs/C_ABI.md) — the no-alloc C ABI handle contract.
 - [docs/PARITY.md](docs/PARITY.md) — the byte-parity moat against `wickra-core`.
-- [docs/LATENCY.md](docs/LATENCY.md) — how latency is measured.
+- The no-alloc C ABI handle contract (`docs/C_ABI.md`) and latency methodology
+  (`docs/LATENCY.md`) land with the C ABI and benchmark phases.
 
 ## Contributing
 
