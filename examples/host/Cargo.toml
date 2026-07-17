@@ -1,0 +1,14 @@
+# A std host example: sanity-run the no-alloc indicators on a desktop, reading
+# the committed golden price vector and printing SMA(20)/EMA(20). Its own
+# workspace so `cargo test --workspace` at the repo root never pulls it in.
+[package]
+name = "wickra-embed-host-example"
+version = "0.1.0"
+edition = "2021"
+publish = false
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+embed-core = { path = "../../crates/embed-core" }
+
+[workspace]
