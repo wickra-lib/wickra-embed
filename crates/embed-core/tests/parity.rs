@@ -141,14 +141,28 @@ fn libm_abs_equals_std_abs() {
 
 #[test]
 fn libm_max_equals_std_max() {
+    // A zero of either sign: shifting the sign bit out leaves all-zero bits for
+    // both `+0.0` and `-0.0`, and non-zero for everything else.
+    let is_zero = |v: f64| (v.to_bits() << 1) == 0;
     let vals = math_probe_values();
     for &a in &vals {
         for &b in &[1.0, -1.0, 0.0, a * 0.5, 100.0] {
-            assert_eq!(
-                f64::max(a, b).to_bits(),
-                libm::fmax(a, b).to_bits(),
-                "max({a}, {b}) diverges"
-            );
+            let std_max = f64::max(a, b);
+            let libm_max = libm::fmax(a, b);
+            // IEEE 754 leaves the *sign* of a zero result of `max` unspecified,
+            // so `f64::max` and `libm::fmax` may return differently-signed zeros
+            // for e.g. `max(-0.0, 0.0)`. That difference is numerically
+            // irrelevant — the indicators never depend on the sign of a zero.
+            // For every non-zero result the two must agree bit-for-bit.
+            if is_zero(std_max) {
+                assert!(is_zero(libm_max), "max({a}, {b}) not both zero");
+            } else {
+                assert_eq!(
+                    std_max.to_bits(),
+                    libm_max.to_bits(),
+                    "max({a}, {b}) diverges"
+                );
+            }
         }
     }
 }
