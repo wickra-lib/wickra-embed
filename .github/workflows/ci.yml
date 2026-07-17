@@ -101,9 +101,13 @@ jobs:
       - name: Assert no allocator symbols are referenced
         shell: bash
         run: |
+          # llvm-tools-preview ships llvm-nm; ensure it is present regardless of
+          # whether the setup action installed it, then locate it (it is a
+          # symlink under the sysroot, so do not filter on -type f).
+          rustup component add llvm-tools-preview
           rlib=$(find target/thumbv6m-none-eabi/release -name 'libembed_core-*.rlib' | head -n1)
           test -n "$rlib" || { echo "embed-core rlib not found"; exit 1; }
-          nm=$(find "$(rustc --print sysroot)" -name 'llvm-nm*' -type f | head -n1)
+          nm=$(find "$(rustc --print sysroot)" -name 'llvm-nm' | head -n1)
           test -n "$nm" || { echo "llvm-nm not found"; exit 1; }
           echo "Scanning $rlib"
           if "$nm" "$rlib" 2>/dev/null | grep -E '__rust_(alloc|realloc|dealloc|alloc_zeroed)'; then
@@ -269,11 +273,14 @@ jobs:
           targets: thumbv7em-none-eabihf
       - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
       # The example is its own workspace (so `cargo test --workspace` at the root
-      # never pulls std onto the no_std core). Build the firmware image for the
-      # hardware-FPU target; a QEMU run is optional and left to local dev, since
-      # the runners have no qemu-system-arm.
+      # never pulls std onto the no_std core). Build from inside its directory so
+      # its .cargo/config.toml applies — that file pins the thumbv7em target and
+      # the cortex-m-rt linker script (-Tlink.x); a --manifest-path build from the
+      # repo root would pick up neither. A QEMU run is optional and left to local
+      # dev, since the runners have no qemu-system-arm.
       - name: Build the Cortex-M demo firmware
-        run: cargo build --release --manifest-path examples/embedded/Cargo.toml
+        run: cargo build --release
+        working-directory: examples/embedded
 
   links:
     name: External links (lychee)

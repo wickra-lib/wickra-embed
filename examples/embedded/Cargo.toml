@@ -16,8 +16,15 @@ cortex-m-semihosting = "0.5"
 libm = "0.2"
 panic-halt = "0.2"
 
+# Bare-metal has no unwinder, so both profiles must abort on panic (the
+# `panic-halt` handler then halts the core). Without this the thumbv7em build
+# fails with "unwinding panics are not supported without std".
+[profile.dev]
+panic = "abort"
+
 [profile.release]
 opt-level = "z"
 lto = true
+panic = "abort"
 
 [workspace]
