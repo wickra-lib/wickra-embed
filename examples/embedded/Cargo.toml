@@ -1,0 +1,23 @@
+# Bare-metal Cortex-M example: runs the no-alloc indicators on `thumbv7em`, with
+# no OS and no heap, and reports per-update cycle counts via semihosting. Its own
+# workspace (never a root member) so `--all-targets` never forces std onto it.
+[package]
+name = "wickra-embed-example"
+version = "0.1.0"
+edition = "2021"
+publish = false
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+embed-core = { path = "../../crates/embed-core", default-features = false }
+cortex-m = "0.7"
+cortex-m-rt = "0.7"
+cortex-m-semihosting = "0.5"
+libm = "0.2"
+panic-halt = "0.2"
+
+[profile.release]
+opt-level = "z"
+lto = true
+
+[workspace]

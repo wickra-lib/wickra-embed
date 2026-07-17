@@ -1,0 +1,9 @@
+# Build for the Cortex-M4F target by default and run under QEMU's MPS2-AN385
+# machine with semihosting, so `cargo run` boots the firmware and streams its
+# semihosting output straight to the terminal.
+[build]
+target = "thumbv7em-none-eabihf"
+
+[target.thumbv7em-none-eabihf]
+runner = "qemu-system-arm -cpu cortex-m4 -machine mps2-an385 -nographic -semihosting-config enable=on,target=native -kernel"
+rustflags = ["-C", "link-arg=-Tlink.x"]
