@@ -1,0 +1,39 @@
+[package]
+name = "wickra-embed-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+# The no_std core under test, built with std on (the host fuzz harness links std;
+# the no-alloc guarantee is enforced on the bare-metal target in CI, not here).
+embed-core = { path = "../crates/embed-core" }
+
+# Detach from the parent workspace — cargo-fuzz builds this crate on its own with
+# sanitizer flags on a nightly toolchain.
+[workspace]
+
+[[bin]]
+name = "sma_update"
+path = "fuzz_targets/sma_update.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "ema_update"
+path = "fuzz_targets/ema_update.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "ohlc_update"
+path = "fuzz_targets/ohlc_update.rs"
+test = false
+doc = false
+bench = false
