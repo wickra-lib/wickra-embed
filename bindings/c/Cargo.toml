@@ -25,8 +25,9 @@ std = ["embed-core/std"]
 
 [dependencies]
 # The no-alloc core, without its default `std` feature — the C ABI is `no_std`
-# when the firmware asks for it (see the `std` feature above).
-embed-core = { path = "../../crates/embed-core", default-features = false }
+# when the firmware asks for it (see the `std` feature above). Referenced through
+# the workspace so it carries a version (not a wildcard) for cargo-deny.
+embed-core = { workspace = true }
 
 # The C ABI inherently needs `unsafe` (raw pointers across the FFI boundary); the
 # workspace forbids it everywhere else, so this crate re-allows it locally. The
