@@ -18,10 +18,12 @@ env:
 
 # embed-core is `#![no_std]` and allocation-free. The host jobs (fmt, clippy,
 # test) run with the default `std` feature; the `build-no_std` matrix cross-
-# compiles the core with `--no-default-features` to the bare-metal targets and
-# doubles as the allocation-leak guard: the build fails the moment anything pulls
-# `std`/`alloc` in. Security scans, coverage, fuzzing and the C ABI land with the
-# later phases.
+# compiles the core with `--no-default-features` to the bare-metal targets. The
+# `alloc-leak-guard` job goes one step further and greps the emitted object for
+# allocator symbols, so a `Vec`/`Box` slipping into the core fails CI even though
+# the crate would still compile. `coverage` measures the determinism core,
+# `fuzz-smoke` exercises the host fuzz targets, `c-abi` builds the no-alloc C ABI
+# and checks header drift, and `example-embedded` cross-builds the Cortex-M demo.
 
 jobs:
   fmt:
@@ -76,6 +78,44 @@ jobs:
       # pulled in.
       - run: cargo build -p embed-core --no-default-features --target ${{ matrix.target }}
 
+  alloc-leak-guard:
+    name: No-alloc guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup-rust
+        with:
+          targets: thumbv6m-none-eabi
+          components: llvm-tools-preview
+      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+      # A pure lib build succeeds even if the core `extern crate alloc`s, because
+      # `alloc` is available for the target (only *linking a binary* without an
+      # allocator would fail). So build the rlib and assert its objects reference
+      # none of the runtime allocator shims — that catches a `Vec`/`Box` the
+      # moment it lands, on the hardest (soft-float, FPU-less) target.
+      - name: Build the no-alloc core (release)
+        run: cargo build -p embed-core --no-default-features --release --target thumbv6m-none-eabi
+      - name: Assert no allocator symbols are referenced
+        shell: bash
+        run: |
+          # llvm-tools-preview ships llvm-nm; ensure it is present regardless of
+          # whether the setup action installed it, then locate it (it is a
+          # symlink under the sysroot, so do not filter on -type f).
+          rustup component add llvm-tools-preview
+          rlib=$(find target/thumbv6m-none-eabi/release -name 'libembed_core-*.rlib' | head -n1)
+          test -n "$rlib" || { echo "embed-core rlib not found"; exit 1; }
+          nm=$(find "$(rustc --print sysroot)" -name 'llvm-nm' | head -n1)
+          test -n "$nm" || { echo "llvm-nm not found"; exit 1; }
+          echo "Scanning $rlib"
+          if "$nm" "$rlib" 2>/dev/null | grep -E '__rust_(alloc|realloc|dealloc|alloc_zeroed)'; then
+            echo "FAIL: allocator symbols present — embed-core pulled in alloc"
+            exit 1
+          fi
+          echo "OK: no allocator symbols in the no-alloc core"
+
   test:
     name: Test (${{ matrix.os }})
     strategy:
@@ -121,6 +161,126 @@ jobs:
       - uses: EmbarkStudios/cargo-deny-action@3c6349835b2b7b196a839186cb8b78e02f7b5f25 # v2.1.1
         with:
           command: check advisories bans sources licenses
+
+  coverage:
+    name: Coverage
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup-rust
+        with:
+          components: llvm-tools-preview
+      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+      - name: Install cargo-llvm-cov
+        uses: taiki-e/install-action@c7eb1735f09259a5035e8e5d44b1406b1cddc0fb # v2.83.0
+        with:
+          tool: cargo-llvm-cov
+      # The moat lives in embed-core: the no-alloc arithmetic that must stay
+      # byte-identical to std wickra-core. Measure it in isolation so patch
+      # coverage tracks the core.
+      - name: Generate coverage (lcov)
+        run: cargo llvm-cov -p embed-core --all-features --lcov --output-path lcov.info
+      - name: Upload to Codecov
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
+        with:
+          files: lcov.info
+          fail_ci_if_error: false
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  fuzz-smoke:
+    name: Fuzz (smoke)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # cargo-fuzz injects its own sanitizer RUSTFLAGS; the repo-wide `-D warnings`
+    # would ride along into that instrumented build, so clear it for this job.
+    env:
+      RUSTFLAGS: ""
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup-rust
+        with:
+          toolchain: nightly
+      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+        with:
+          workspaces: fuzz
+      - name: Install cargo-fuzz
+        uses: taiki-e/install-action@c7eb1735f09259a5035e8e5d44b1406b1cddc0fb # v2.83.0
+        with:
+          tool: cargo-fuzz
+      - name: Fuzz sma_update (30 s)
+        run: cargo +nightly fuzz run --target x86_64-unknown-linux-gnu sma_update -- -max_total_time=30
+        working-directory: fuzz
+      - name: Fuzz ema_update (30 s)
+        run: cargo +nightly fuzz run --target x86_64-unknown-linux-gnu ema_update -- -max_total_time=30
+        working-directory: fuzz
+      - name: Fuzz ohlc_update (30 s)
+        run: cargo +nightly fuzz run --target x86_64-unknown-linux-gnu ohlc_update -- -max_total_time=30
+        working-directory: fuzz
+
+  c-abi:
+    name: C ABI on ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup-rust
+      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+      - name: Install cbindgen
+        uses: taiki-e/install-action@c7eb1735f09259a5035e8e5d44b1406b1cddc0fb # v2.83.0
+        with:
+          tool: cbindgen
+      - name: Build the C ABI library (cdylib + staticlib)
+        run: cargo build -p wickra-embed-c --release
+      - name: Rust unit tests
+        run: cargo test -p wickra-embed-c
+      # The generated header is platform-independent, so checking drift on one OS
+      # is enough — and avoids a spurious CRLF/LF diff on the Windows runner.
+      - name: Check the generated C header is in sync
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          cd bindings/c
+          cbindgen --config cbindgen.toml --crate wickra-embed-c --output /tmp/wickra_embed.h
+          diff -u include/wickra_embed.h /tmp/wickra_embed.h
+      - name: Build and run the C example (CMake + ctest)
+        run: |
+          cmake -S examples/c -B examples/c/build
+          cmake --build examples/c/build --config Release
+          ctest --test-dir examples/c/build -C Release --output-on-failure
+
+  example-embedded:
+    name: Embedded example (thumbv7em)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup-rust
+        with:
+          targets: thumbv7em-none-eabihf
+      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+      # The example is its own workspace (so `cargo test --workspace` at the root
+      # never pulls std onto the no_std core). Build from inside its directory so
+      # its .cargo/config.toml applies — that file pins the thumbv7em target and
+      # the cortex-m-rt linker script (-Tlink.x); a --manifest-path build from the
+      # repo root would pick up neither. A QEMU run is optional and left to local
+      # dev, since the runners have no qemu-system-arm.
+      - name: Build the Cortex-M demo firmware
+        run: cargo build --release
+        working-directory: examples/embedded
 
   links:
     name: External links (lychee)

@@ -1,0 +1,28 @@
+name: Link check
+
+# External link rot is non-deterministic (third-party sites go down, rate-limit,
+# or move). ci.yml already checks links on every push / PR against the committed
+# docs; this standalone workflow re-runs the same check on a weekly schedule and
+# on demand so rot that appears between PRs is still caught. It is deliberately
+# NOT a dependency of release.yml, so a transient external outage can never block
+# an irreversible publish. Per-doc globs grow as the docs/ tree lands (P-EMB-8).
+on:
+  schedule:
+    - cron: "0 6 * * 1" # Mondays 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  links:
+    name: External links (lychee)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: lycheeverse/lychee-action@8646ba30535128ac92d33dfc9133794bfdd9b411 # v2
+        with:
+          args: --config lychee.toml --no-progress --root-dir "${{ github.workspace }}" "*.md" "crates/embed-core/README.md" "bindings/c/README.md" "examples/README.md"
+          fail: true
