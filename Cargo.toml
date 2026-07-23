@@ -33,7 +33,7 @@ libm = "0.2"
 # C ABI header generation.
 cbindgen = "0.27"
 # Test/bench (host only).
-criterion = "0.5"
+criterion = "0.8"
 proptest = "1"
 # Parity oracle — the std reference the no-alloc subset is checked byte-for-byte
 # against. Used ONLY under [dev-dependencies] in embed-core, never in the core path.
