@@ -175,7 +175,7 @@ jobs:
           components: llvm-tools-preview
       - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
       - name: Install cargo-llvm-cov
-        uses: taiki-e/install-action@c7eb1735f09259a5035e8e5d44b1406b1cddc0fb # v2.83.0
+        uses: taiki-e/install-action@ed67fa35ac944f3a9b33f12c4dd43b6f31a47e20 # v2.83.3
         with:
           tool: cargo-llvm-cov
       # The moat lives in embed-core: the no-alloc arithmetic that must stay
@@ -210,7 +210,7 @@ jobs:
         with:
           workspaces: fuzz
       - name: Install cargo-fuzz
-        uses: taiki-e/install-action@c7eb1735f09259a5035e8e5d44b1406b1cddc0fb # v2.83.0
+        uses: taiki-e/install-action@ed67fa35ac944f3a9b33f12c4dd43b6f31a47e20 # v2.83.3
         with:
           tool: cargo-fuzz
       - name: Fuzz sma_update (30 s)
@@ -238,7 +238,7 @@ jobs:
       - uses: ./.github/actions/setup-rust
       - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
       - name: Install cbindgen
-        uses: taiki-e/install-action@c7eb1735f09259a5035e8e5d44b1406b1cddc0fb # v2.83.0
+        uses: taiki-e/install-action@ed67fa35ac944f3a9b33f12c4dd43b6f31a47e20 # v2.83.3
         with:
           tool: cbindgen
       - name: Build the C ABI library (cdylib + staticlib)
@@ -290,7 +290,7 @@ jobs:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
-      - uses: lycheeverse/lychee-action@8646ba30535128ac92d33dfc9133794bfdd9b411 # v2
+      - uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2
         with:
           args: --config lychee.toml --no-progress --root-dir "${{ github.workspace }}" "*.md" "crates/embed-core/README.md"
           fail: true
