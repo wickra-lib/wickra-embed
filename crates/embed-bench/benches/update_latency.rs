@@ -10,7 +10,9 @@
 //! workspace edge), i.e. `libm` — the exact arithmetic that runs on the target,
 //! so the host nanoseconds track the on-device cost up to clock scaling.
 
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
+use std::hint::black_box;
+
+use criterion::{criterion_group, criterion_main, Criterion};
 use embed_core::{Atr, Candle, Ema, Indicator, Roc, Rsi, Sma};
 
 /// A finite, drifting-and-oscillating price path — never NaN/inf, and varied
