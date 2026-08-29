@@ -4,14 +4,18 @@
 
 [![Built on Wickra](https://img.shields.io/badge/built%20on-wickra-3b82f6)](https://github.com/wickra-lib/wickra)
 [![Status](https://img.shields.io/badge/status-pre--release-orange)](https://github.com/wickra-lib/wickra-embed)
-[![CI](https://github.com/wickra-lib/wickra-embed/actions/workflows/ci.yml/badge.svg)](https://github.com/wickra-lib/wickra-embed/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/wickra-lib/wickra-embed/actions/workflows/codeql.yml/badge.svg)](https://github.com/wickra-lib/wickra-embed/actions/workflows/codeql.yml)
-[![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](#license)
-[![OpenSSF Scorecard](https://img.shields.io/badge/OpenSSF-Scorecard-3b82f6)](https://scorecard.dev/viewer/?uri=github.com/wickra-lib/wickra-embed)
+[![CI](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/ci.svg)](https://github.com/wickra-lib/wickra-embed/actions/workflows/ci.yml)
+[![CodeQL](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/codeql.svg)](https://github.com/wickra-lib/wickra-embed/actions/workflows/codeql.yml)
+[![GitHub release](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/release.svg)](https://github.com/wickra-lib/wickra-embed/releases/latest)
+[![crates.io](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/crates.svg)](https://crates.io/crates/embed-core)
+[![License: MIT OR Apache-2.0](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/license.svg)](#license)
+[![OpenSSF Scorecard](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/scorecard.svg)](https://scorecard.dev/viewer/?uri=github.com/wickra-lib/wickra-embed)
+[![OpenSSF Best Practices](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/best-practices.svg)](https://www.bestpractices.dev)
+[![Build provenance](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/provenance.svg)](https://github.com/wickra-lib/wickra-embed/attestations)
+[![Docs](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/docs.svg)](https://wickra.org)
 [![no_std](https://img.shields.io/badge/no__std-yes-success.svg)](docs/NO_STD.md)
 [![byte-parity: wickra-core](https://img.shields.io/badge/byte--parity-wickra--core-success.svg)](docs/PARITY.md)
 [![targets: thumbv7em / thumbv6m](https://img.shields.io/badge/targets-thumbv7em%20%7C%20thumbv6m-informational.svg)](docs/NO_STD.md)
-[![Docs](https://img.shields.io/badge/docs-wickra.org-3b82f6)](https://wickra.org)
 
 ---
 
@@ -202,3 +206,26 @@ conditions.
 `wickra-embed` computes technical indicators. It is analysis software, not
 financial advice, and comes with no warranty. Trading carries risk; you are
 responsible for your own decisions.
+
+---
+
+<p align="center">
+  <a href="https://github.com/wickra-lib/wickra-embed">
+    <img alt="GitHub stars" src="https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/stars.svg">
+  </a>
+  <a href="https://github.com/wickra-lib/wickra-embed/network/members">
+    <img alt="GitHub forks" src="https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/forks.svg">
+  </a>
+  <a href="https://github.com/wickra-lib/wickra-embed/issues">
+    <img alt="GitHub issues" src="https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/issues.svg">
+  </a>
+</p>
+
+<p align="center">
+  Built on <a href="https://github.com/wickra-lib/wickra">Wickra</a>. If it saved you time, the cheapest way to say thanks is to ⭐ the repo.
+</p>
+
+<p align="center">
+  <img alt="wickra-embed star history" width="640"
+       src="https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/star-history.svg">
+</p>
