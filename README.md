@@ -29,7 +29,7 @@ is O(1) with a bounded worst-case latency, uses fixed-capacity buffers (no
 allocation), and produces the **byte-for-byte identical** value the std
 `wickra-core` produces on a server — verified by a parity test suite.
 
-> **Part of the [Wickra ecosystem](https://github.com/wickra-lib):** the same
+> **Part of the [Wickra ecosystem](https://github.com/wickra-lib):** the same data-driven core and ten-language binding surface also power [wickra-exchange](https://github.com/wickra-lib/wickra-exchange), [wickra-backtest](https://github.com/wickra-lib/wickra-backtest), [wickra-terminal](https://github.com/wickra-lib/wickra-terminal) and 20 more — see [the full list](https://github.com/wickra-lib).
 > indicator math powers the full-fat [wickra](https://github.com/wickra-lib/wickra)
 > library and its downstream tools; `wickra-embed` is the no-alloc, bare-metal
 > distillation of that math.
