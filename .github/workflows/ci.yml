@@ -51,7 +51,7 @@ jobs:
         with:
           components: clippy
           targets: thumbv7em-none-eabihf
-      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+      - uses: Swatinem/rust-cache@f0d9c3887740aee45f6153b24b3a6b815192ec16 # v2
       - name: Clippy the host workspace (std)
         run: cargo clippy --workspace --all-targets --all-features -- -D warnings
       - name: Clippy the no_std core on a bare-metal target
@@ -72,7 +72,7 @@ jobs:
       - uses: ./.github/actions/setup-rust
         with:
           targets: ${{ matrix.target }}
-      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+      - uses: Swatinem/rust-cache@f0d9c3887740aee45f6153b24b3a6b815192ec16 # v2
       # No `--all-targets`: tests and doctests need std. A pure lib build of the
       # no-alloc core is the allocation-leak guard — it fails if `std`/`alloc` is
       # pulled in.
@@ -90,7 +90,7 @@ jobs:
         with:
           targets: thumbv6m-none-eabi
           components: llvm-tools-preview
-      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+      - uses: Swatinem/rust-cache@f0d9c3887740aee45f6153b24b3a6b815192ec16 # v2
       # A pure lib build succeeds even if the core `extern crate alloc`s, because
       # `alloc` is available for the target (only *linking a binary* without an
       # allocator would fail). So build the rlib and assert its objects reference
@@ -129,7 +129,7 @@ jobs:
         with:
           persist-credentials: false
       - uses: ./.github/actions/setup-rust
-      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+      - uses: Swatinem/rust-cache@f0d9c3887740aee45f6153b24b3a6b815192ec16 # v2
       - run: cargo test --workspace --all-features
 
   msrv:
@@ -144,7 +144,7 @@ jobs:
         with:
           toolchain: "1.86"
           targets: thumbv7em-none-eabihf
-      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+      - uses: Swatinem/rust-cache@f0d9c3887740aee45f6153b24b3a6b815192ec16 # v2
       - name: Check the host workspace
         run: cargo check --workspace --all-features
       - name: Check the no_std core on a bare-metal target
@@ -173,9 +173,9 @@ jobs:
       - uses: ./.github/actions/setup-rust
         with:
           components: llvm-tools-preview
-      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+      - uses: Swatinem/rust-cache@f0d9c3887740aee45f6153b24b3a6b815192ec16 # v2
       - name: Install cargo-llvm-cov
-        uses: taiki-e/install-action@3d7d7cd5ac7f994c1892ae0c06165095b9139094 # v2.85.1
+        uses: taiki-e/install-action@5bf6ce016fd2e72eefc647cbca1e4213f65955b8 # v2.87.5
         with:
           tool: cargo-llvm-cov
       # The moat lives in wickra-embed-core: the no-alloc arithmetic that must stay
@@ -210,11 +210,11 @@ jobs:
       - uses: ./.github/actions/setup-rust
         with:
           toolchain: nightly
-      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+      - uses: Swatinem/rust-cache@f0d9c3887740aee45f6153b24b3a6b815192ec16 # v2
         with:
           workspaces: fuzz
       - name: Install cargo-fuzz
-        uses: taiki-e/install-action@3d7d7cd5ac7f994c1892ae0c06165095b9139094 # v2.85.1
+        uses: taiki-e/install-action@5bf6ce016fd2e72eefc647cbca1e4213f65955b8 # v2.87.5
         with:
           tool: cargo-fuzz
       - name: Fuzz sma_update (30 s)
@@ -240,9 +240,9 @@ jobs:
         with:
           persist-credentials: false
       - uses: ./.github/actions/setup-rust
-      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+      - uses: Swatinem/rust-cache@f0d9c3887740aee45f6153b24b3a6b815192ec16 # v2
       - name: Install cbindgen
-        uses: taiki-e/install-action@3d7d7cd5ac7f994c1892ae0c06165095b9139094 # v2.85.1
+        uses: taiki-e/install-action@5bf6ce016fd2e72eefc647cbca1e4213f65955b8 # v2.87.5
         with:
           tool: cbindgen
       - name: Build the C ABI library (cdylib + staticlib)
@@ -275,7 +275,7 @@ jobs:
       - uses: ./.github/actions/setup-rust
         with:
           targets: thumbv7em-none-eabihf
-      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+      - uses: Swatinem/rust-cache@f0d9c3887740aee45f6153b24b3a6b815192ec16 # v2
       # The example is its own workspace (so `cargo test --workspace` at the root
       # never pulls std onto the no_std core). Build from inside its directory so
       # its .cargo/config.toml applies — that file pins the thumbv7em target and
