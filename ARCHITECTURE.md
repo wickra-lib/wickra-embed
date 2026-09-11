@@ -8,7 +8,7 @@ on a server.**
 ## The layers
 
 ```
-CONSUMERS   firmware (C/C++) via the no-alloc C ABI   ·   Rust via embed-core directly
+CONSUMERS   firmware (C/C++) via the no-alloc C ABI   ·   Rust via wickra-embed-core directly
       ▲ Option<f64> per update                                   ▲
 CORE  crates/embed-core (#![no_std], no alloc):  Indicator contract → const-generic
                              ring buffer → Sma/Ema/Rsi/Atr/Roc, O(1) bounded-latency update
@@ -19,7 +19,7 @@ PARITY ORACLE  wickra-core (std) — dev-dependency only, never in the core path
 
 ## The core is allocation-free
 
-`embed-core` is `#![no_std]` and `#![forbid(unsafe_code)]`. It never touches an
+`wickra-embed-core` is `#![no_std]` and `#![forbid(unsafe_code)]`. It never touches an
 allocator: buffers are `const`-generic fixed-capacity ring buffers, so an
 indicator's entire state lives inline in its struct. There is no `Box`, no `Vec`,
 no `String`, no `HashMap`. `wickra-core` — which does use `alloc` — appears only

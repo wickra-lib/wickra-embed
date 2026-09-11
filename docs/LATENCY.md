@@ -7,7 +7,7 @@ is measured, and what the numbers are.
 
 ## Why the latency is bounded
 
-Every indicator in `embed-core` is **O(1) per update** with fixed-size state:
+Every indicator in `wickra-embed-core` is **O(1) per update** with fixed-size state:
 
 - **`Sma`** keeps a rolling sum and a const-generic ring buffer. An update
   subtracts the oldest value, adds the new one, and divides — constant work

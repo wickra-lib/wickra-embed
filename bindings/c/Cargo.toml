@@ -21,13 +21,13 @@ crate-type = ["cdylib", "staticlib"]
 # staticlib with `--no-default-features`; the firmware then provides the panic
 # handler and the core takes its `libm` path (byte-identical to std).
 default = ["std"]
-std = ["embed-core/std"]
+std = ["wickra-embed-core/std"]
 
 [dependencies]
 # The no-alloc core, without its default `std` feature — the C ABI is `no_std`
 # when the firmware asks for it (see the `std` feature above). Referenced through
 # the workspace so it carries a version (not a wildcard) for cargo-deny.
-embed-core = { workspace = true }
+wickra-embed-core = { workspace = true }
 
 # The C ABI inherently needs `unsafe` (raw pointers across the FFI boundary); the
 # workspace forbids it everywhere else, so this crate re-allows it locally. The

@@ -11,7 +11,7 @@ cargo-fuzz = true
 libfuzzer-sys = "0.4"
 # The no_std core under test, built with std on (the host fuzz harness links std;
 # the no-alloc guarantee is enforced on the bare-metal target in CI, not here).
-embed-core = { path = "../crates/embed-core" }
+wickra-embed-core = { path = "../crates/embed-core" }
 
 # Detach from the parent workspace — cargo-fuzz builds this crate on its own with
 # sanitizer flags on a nightly toolchain.

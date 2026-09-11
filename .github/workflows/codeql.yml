@@ -1,6 +1,6 @@
 name: CodeQL
 
-# Static analysis security testing. embed-core and the C ABI crate are pure Rust
+# Static analysis security testing. wickra-embed-core and the C ABI crate are pure Rust
 # (the C ABI has no consumer-side Rust), so the matrix is Rust-only; there are no
 # Python / JavaScript binding surfaces to add (this product is C-ABI-only by
 # design). Results appear under Security -> Code scanning. `build-mode: none`

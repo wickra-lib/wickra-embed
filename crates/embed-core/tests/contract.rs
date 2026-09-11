@@ -5,9 +5,9 @@
 //! machine*: how long each indicator warms up, when `is_ready` flips, and that
 //! `reset` returns it to the freshly-constructed state.
 
-use embed_core::{Atr, Candle, Ema, Indicator, Roc, Rsi, Sma};
+use wickra_embed_core::{Atr, Candle, Ema, Indicator, Roc, Rsi, Sma};
 // Bring the std reference's trait methods (`warmup_period`) into scope for
-// resolution without shadowing `embed_core::Indicator` — receivers are distinct
+// resolution without shadowing `wickra_embed_core::Indicator` — receivers are distinct
 // types so there is no ambiguity.
 use wickra_core::Indicator as _;
 

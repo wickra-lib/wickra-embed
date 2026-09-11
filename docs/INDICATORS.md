@@ -1,6 +1,6 @@
 # The v0.1 indicator subset
 
-`embed-core` ships a small, verified, allocation-free subset of the Wickra
+`wickra-embed-core` ships a small, verified, allocation-free subset of the Wickra
 indicator catalogue. Each is a const-generic (or runtime-period) struct
 implementing the [`Indicator`] trait, byte-for-byte identical to its
 `wickra-core` counterpart (see [PARITY.md](PARITY.md)).
@@ -40,7 +40,7 @@ pub trait Indicator {
 or allocates.
 
 ```rust
-use embed_core::{Indicator, Sma};
+use wickra_embed_core::{Indicator, Sma};
 
 let mut sma = Sma::<20>::new();
 for price in prices {

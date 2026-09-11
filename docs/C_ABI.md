@@ -133,7 +133,7 @@ exactly this.
 
 ## Byte-parity holds through the ABI
 
-The C ABI is a thin `extern "C"` shim over `embed-core`; it performs no arithmetic
+The C ABI is a thin `extern "C"` shim over `wickra-embed-core`; it performs no arithmetic
 of its own. Every value it returns is therefore the **byte-for-byte identical**
 value the std [`wickra-core`](https://github.com/wickra-lib/wickra) produces on a
 server — the same bits on a Cortex-M0, a Cortex-M4F, and an x86-64 host. See

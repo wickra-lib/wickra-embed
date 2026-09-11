@@ -14,7 +14,7 @@ use crate::traits::Indicator;
 /// # Example
 ///
 /// ```
-/// use embed_core::{Atr, Candle, Indicator};
+/// use wickra_embed_core::{Atr, Candle, Indicator};
 ///
 /// let mut atr = Atr::<5>::new();
 /// let mut last = None;

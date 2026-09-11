@@ -1,7 +1,7 @@
 # Wickra Embed — workspace.
 # An allocation-free, `#![no_std]` streaming-indicator engine for bare-metal and
 # HFT hardware: fixed-latency, O(1) updates with no heap, byte-for-byte identical
-# to the std `wickra-core`. The verified no-alloc subset lives in `embed-core`;
+# to the std `wickra-core`. The verified no-alloc subset lives in `wickra-embed-core`;
 # `wickra-core` is a dev-only parity oracle, never a runtime dependency.
 #
 # The `members` list grows as crates are added, phase by phase; the final set is:
@@ -26,7 +26,7 @@ authors = ["wickra-lib"]
 # The no-alloc core, referenced by the C ABI via `workspace = true`. Declared
 # with an explicit version (plus path) so it is not treated as a wildcard
 # dependency by `cargo-deny`.
-embed-core = { version = "0.1.0", path = "crates/embed-core", default-features = false }
+wickra-embed-core = { version = "0.1.0", path = "crates/embed-core", default-features = false }
 # no_std / no-alloc building blocks.
 heapless = "0.8"
 libm = "0.2"
@@ -36,7 +36,7 @@ cbindgen = "0.27"
 criterion = "0.8"
 proptest = "1"
 # Parity oracle — the std reference the no-alloc subset is checked byte-for-byte
-# against. Used ONLY under [dev-dependencies] in embed-core, never in the core path.
+# against. Used ONLY under [dev-dependencies] in wickra-embed-core, never in the core path.
 wickra-core = "0.9"
 
 [workspace.lints.rust]

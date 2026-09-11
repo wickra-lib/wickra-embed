@@ -9,6 +9,6 @@ publish = false
 license = "MIT OR Apache-2.0"
 
 [dependencies]
-embed-core = { path = "../../crates/embed-core" }
+wickra-embed-core = { path = "../../crates/embed-core" }
 
 [workspace]

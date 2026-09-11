@@ -5,7 +5,7 @@
 //! of finite prices; updating must never panic and every emitted value must be
 //! finite.
 
-use embed_core::{Ema, Indicator};
+use wickra_embed_core::{Ema, Indicator};
 use libfuzzer_sys::fuzz_target;
 
 fuzz_target!(|data: &[u8]| {

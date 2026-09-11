@@ -6,7 +6,7 @@
 [![byte-parity: wickra-core](https://img.shields.io/badge/byte--parity-wickra--core-success.svg)](https://github.com/wickra-lib/wickra-embed/blob/main/docs/PARITY.md)
 
 The **no-alloc** C ABI is the hub bare-metal C and C++ firmware links against. It
-exposes the verified [`embed-core`](https://github.com/wickra-lib/wickra-embed)
+exposes the verified [`wickra-embed-core`](https://github.com/wickra-lib/wickra-embed)
 indicator subset as a `staticlib` (to link into firmware) and a `cdylib` (for
 host use), and — unlike the other Wickra C ABIs — it **never calls `malloc`**.
 The caller owns the storage for every indicator; the library only writes into it.

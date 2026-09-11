@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **The published crate carried a name the release could not upload.**
+  `embed-core` is outside the org's crates.io token scope, which creates new
+  crates under the `wickra-` prefix only; `cargo publish` on it returns 403
+  at upload while `--dry-run` passes. It is now `wickra-embed-core`, the
+  shape of every released sibling. The directory keeps its name; only the
+  package and the `wickra_embed_core` path moved. The same audit ran across
+  the family (xray paid for this with its first tag).
+
 ### Added
 
 - `bindings/c`: a no-alloc C ABI (`wickra-embed-c`, built as `staticlib` +
@@ -15,7 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `wickra_embed_version`. The library never allocates; the caller places each
   handle on its own stack or in static storage. The cbindgen-generated header
   `include/wickra_embed.h` is committed and drift-checked.
-- `embed-core`: the `#![no_std]`, allocation-free indicator core (`Sma`, `Ema`,
+- `wickra-embed-core`: the `#![no_std]`, allocation-free indicator core (`Sma`, `Ema`,
   `Rsi`, `Atr`, `Roc`), byte-for-byte identical to `wickra-core`, cross-built for
   `thumbv7em-none-eabihf` and `thumbv6m-none-eabi`.
 - `golden/`: byte-parity fixtures generated once from `wickra-core` and replayed

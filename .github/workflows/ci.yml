@@ -16,7 +16,7 @@ env:
   CARGO_NET_RETRY: "10"
   RUSTFLAGS: "-D warnings"
 
-# embed-core is `#![no_std]` and allocation-free. The host jobs (fmt, clippy,
+# wickra-embed-core is `#![no_std]` and allocation-free. The host jobs (fmt, clippy,
 # test) run with the default `std` feature; the `build-no_std` matrix cross-
 # compiles the core with `--no-default-features` to the bare-metal targets. The
 # `alloc-leak-guard` job goes one step further and greps the emitted object for
@@ -55,7 +55,7 @@ jobs:
       - name: Clippy the host workspace (std)
         run: cargo clippy --workspace --all-targets --all-features -- -D warnings
       - name: Clippy the no_std core on a bare-metal target
-        run: cargo clippy -p embed-core --no-default-features --target thumbv7em-none-eabihf -- -D warnings
+        run: cargo clippy -p wickra-embed-core --no-default-features --target thumbv7em-none-eabihf -- -D warnings
 
   build-no_std:
     name: Build no_std (${{ matrix.target }})
@@ -76,7 +76,7 @@ jobs:
       # No `--all-targets`: tests and doctests need std. A pure lib build of the
       # no-alloc core is the allocation-leak guard — it fails if `std`/`alloc` is
       # pulled in.
-      - run: cargo build -p embed-core --no-default-features --target ${{ matrix.target }}
+      - run: cargo build -p wickra-embed-core --no-default-features --target ${{ matrix.target }}
 
   alloc-leak-guard:
     name: No-alloc guard
@@ -97,7 +97,7 @@ jobs:
       # none of the runtime allocator shims — that catches a `Vec`/`Box` the
       # moment it lands, on the hardest (soft-float, FPU-less) target.
       - name: Build the no-alloc core (release)
-        run: cargo build -p embed-core --no-default-features --release --target thumbv6m-none-eabi
+        run: cargo build -p wickra-embed-core --no-default-features --release --target thumbv6m-none-eabi
       - name: Assert no allocator symbols are referenced
         shell: bash
         run: |
@@ -105,13 +105,13 @@ jobs:
           # whether the setup action installed it, then locate it (it is a
           # symlink under the sysroot, so do not filter on -type f).
           rustup component add llvm-tools-preview
-          rlib=$(find target/thumbv6m-none-eabi/release -name 'libembed_core-*.rlib' | head -n1)
-          test -n "$rlib" || { echo "embed-core rlib not found"; exit 1; }
+          rlib=$(find target/thumbv6m-none-eabi/release -name 'libwickra_embed_core-*.rlib' | head -n1)
+          test -n "$rlib" || { echo "wickra-embed-core rlib not found"; exit 1; }
           nm=$(find "$(rustc --print sysroot)" -name 'llvm-nm' | head -n1)
           test -n "$nm" || { echo "llvm-nm not found"; exit 1; }
           echo "Scanning $rlib"
           if "$nm" "$rlib" 2>/dev/null | grep -E '__rust_(alloc|realloc|dealloc|alloc_zeroed)'; then
-            echo "FAIL: allocator symbols present — embed-core pulled in alloc"
+            echo "FAIL: allocator symbols present — wickra-embed-core pulled in alloc"
             exit 1
           fi
           echo "OK: no allocator symbols in the no-alloc core"
@@ -148,7 +148,7 @@ jobs:
       - name: Check the host workspace
         run: cargo check --workspace --all-features
       - name: Check the no_std core on a bare-metal target
-        run: cargo check -p embed-core --no-default-features --target thumbv7em-none-eabihf
+        run: cargo check -p wickra-embed-core --no-default-features --target thumbv7em-none-eabihf
 
   deny:
     name: cargo-deny
@@ -178,11 +178,11 @@ jobs:
         uses: taiki-e/install-action@3d7d7cd5ac7f994c1892ae0c06165095b9139094 # v2.85.1
         with:
           tool: cargo-llvm-cov
-      # The moat lives in embed-core: the no-alloc arithmetic that must stay
+      # The moat lives in wickra-embed-core: the no-alloc arithmetic that must stay
       # byte-identical to std wickra-core. Measure it in isolation so patch
       # coverage tracks the core.
       - name: Generate coverage (lcov)
-        run: cargo llvm-cov -p embed-core --all-features --lcov --output-path lcov.info
+        run: cargo llvm-cov -p wickra-embed-core --all-features --lcov --output-path lcov.info
       - name: Upload to Codecov
         uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
         with:

@@ -13,7 +13,7 @@ use crate::traits::Indicator;
 /// # Example
 ///
 /// ```
-/// use embed_core::{Indicator, Roc};
+/// use wickra_embed_core::{Indicator, Roc};
 ///
 /// // ROC(3): prev = 100 three steps back, now = 110 -> 10%.
 /// let mut roc = Roc::<3>::new();

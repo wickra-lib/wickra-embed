@@ -5,7 +5,7 @@
 //! precondition `Candle::new` guarantees. Feeding them must never panic and every
 //! emitted true-range average must be finite and non-negative.
 
-use embed_core::{Atr, Candle, Indicator};
+use wickra_embed_core::{Atr, Candle, Indicator};
 use libfuzzer_sys::fuzz_target;
 
 fn finite_bounded(x: f64) -> bool {

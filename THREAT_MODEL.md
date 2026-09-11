@@ -36,7 +36,7 @@ steal and very little to corrupt.
         └────────────┬────────────┘
                      │  validated, panic-free
         ┌────────────▼────────────┐   ← BOUNDARY 2: no_std core (safe Rust)
-        │   embed-core            │      forbid(unsafe_code), no alloc
+        │   wickra-embed-core            │      forbid(unsafe_code), no alloc
         └─────────────────────────┘
 ```
 

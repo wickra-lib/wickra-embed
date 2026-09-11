@@ -6,9 +6,9 @@
 //! warmup expressed as `None`, incremental state that never grows) — the
 //! properties pin that so a future change can't quietly break it.
 
-use embed_core::{Atr, Candle, Ema, Indicator, Roc, Rsi, Sma};
 use proptest::prelude::*;
 use proptest::test_runner::TestCaseError;
+use wickra_embed_core::{Atr, Candle, Ema, Indicator, Roc, Rsi, Sma};
 
 /// Finite, sanely-bounded prices (no NaN/inf; the core's contract assumes finite
 /// input, and enormous magnitudes would overflow the reference, not the core).

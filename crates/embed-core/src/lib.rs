@@ -1,6 +1,6 @@
 //! Allocation-free, `#![no_std]` streaming technical indicators.
 //!
-//! `embed-core` runs the Wickra indicator math where there is no operating
+//! `wickra-embed-core` runs the Wickra indicator math where there is no operating
 //! system and no heap — microcontrollers, FPGA soft-cores, HFT co-processors.
 //! Every [`Indicator`] update is O(1) with a bounded worst case, keeps its state
 //! inline in fixed-capacity buffers (no allocation), and produces the
@@ -28,7 +28,7 @@
 //! # Example
 //!
 //! ```
-//! use embed_core::{Indicator, Sma};
+//! use wickra_embed_core::{Indicator, Sma};
 //!
 //! let mut sma = Sma::<3>::new();
 //! let mut last = None;

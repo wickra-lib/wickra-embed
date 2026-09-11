@@ -1,13 +1,13 @@
 # no_std and no-alloc design
 
-`embed-core` is `#![no_std]` and allocation-free. This document explains what
+`wickra-embed-core` is `#![no_std]` and allocation-free. This document explains what
 that means concretely, how the crate is structured to hold the guarantee, and
 which targets it is built and tested on.
 
 ## `no_std`, and one step further: no-alloc
 
 Many `no_std` crates still use the `alloc` crate (`Box`, `Vec`, `String`) and so
-require a global allocator. `embed-core` goes one step further: it uses **neither
+require a global allocator. `wickra-embed-core` goes one step further: it uses **neither
 `std` nor `alloc`**. There is no `Box`, no `Vec`, no `String`, no `HashMap`,
 nowhere. Every indicator holds its entire state inline:
 
@@ -18,7 +18,7 @@ nowhere. Every indicator holds its entire state inline:
 - `Ema` needs no window at all: a running warmup sum and a count suffice, so it
   is allocation-free even with a runtime period.
 
-The practical consequence: `embed-core` runs on a Cortex-M0 with a few KB of RAM,
+The practical consequence: `wickra-embed-core` runs on a Cortex-M0 with a few KB of RAM,
 with no allocator, no OS, and no surprises about heap fragmentation or
 out-of-memory in the hot path.
 
@@ -42,7 +42,7 @@ toward a heap; the whole point is not to have one.
 ## The `math` switch point
 
 `core` provides `+ - * /` on `f64` but not `sqrt`, `fabs`, `fmax`, or the fused
-multiply-add. `embed-core` funnels the ones it needs through a single module,
+multiply-add. `wickra-embed-core` funnels the ones it needs through a single module,
 `math`, with two implementations selected by the `std` feature:
 
 | Operation | `std` path | `no_std` path |
