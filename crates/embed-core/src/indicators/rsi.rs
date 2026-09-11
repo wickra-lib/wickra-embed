@@ -14,7 +14,7 @@ use crate::traits::Indicator;
 /// # Example
 ///
 /// ```
-/// use embed_core::{Indicator, Rsi};
+/// use wickra_embed_core::{Indicator, Rsi};
 ///
 /// let mut rsi = Rsi::<14>::new();
 /// let mut last = None;

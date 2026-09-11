@@ -52,7 +52,7 @@
 
 use core::ffi::{c_char, c_int};
 
-use embed_core::{Atr, Candle, Ema, Indicator, Roc, Rsi, Sma};
+use wickra_embed_core::{Atr, Candle, Ema, Indicator, Roc, Rsi, Sma};
 
 // Fixed window sizes per exported type. These match the golden reference set
 // (`sma20`, `ema20`, `rsi14`, `atr14`, `roc10`); additional windows would be

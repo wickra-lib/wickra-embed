@@ -57,7 +57,7 @@ Add the core with default features off — that is the `#![no_std]`, no-alloc bu
 
 ```toml
 [dependencies]
-embed-core = { git = "https://github.com/wickra-lib/wickra-embed", default-features = false }
+wickra-embed-core = { git = "https://github.com/wickra-lib/wickra-embed", default-features = false }
 ```
 
 Every indicator holds its whole state inline (a const-generic ring plus a few
@@ -65,7 +65,7 @@ scalars), so there is nothing to allocate — construct it on the stack or in a
 `static` and feed it one data point at a time:
 
 ```rust
-use embed_core::{Indicator, Sma};
+use wickra_embed_core::{Indicator, Sma};
 
 // A fixed-window SMA(20): a 20-slot ring plus a running sum, entirely inline.
 let mut sma = Sma::<20>::new();
@@ -128,7 +128,7 @@ are tracked in [docs/LATENCY.md](docs/LATENCY.md) and [BENCHMARKS.md](BENCHMARKS
 
 ## Targets and no_std
 
-`embed-core` is `#![no_std]` and uses **neither `std` nor `alloc`** — no `Box`,
+`wickra-embed-core` is `#![no_std]` and uses **neither `std` nor `alloc`** — no `Box`,
 no `Vec`, no allocator anywhere. It is built on every change against, and is
 byte-identical across:
 
@@ -160,11 +160,11 @@ docs                   NO_STD / INDICATORS / PARITY / C_ABI / LATENCY deep-dives
 
 ```bash
 # Host build + tests (parity against wickra-core):
-cargo test -p embed-core --all-features
+cargo test -p wickra-embed-core --all-features
 
 # The no_std core on bare-metal targets (pulled automatically via rust-toolchain.toml):
-cargo build -p embed-core --no-default-features --target thumbv7em-none-eabihf
-cargo build -p embed-core --no-default-features --target thumbv6m-none-eabi
+cargo build -p wickra-embed-core --no-default-features --target thumbv7em-none-eabihf
+cargo build -p wickra-embed-core --no-default-features --target thumbv6m-none-eabi
 ```
 
 ## Requirements

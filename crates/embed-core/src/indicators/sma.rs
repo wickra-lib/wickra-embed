@@ -20,7 +20,7 @@ const RECOMPUTE_EVERY: usize = 16;
 /// # Example
 ///
 /// ```
-/// use embed_core::{Indicator, Sma};
+/// use wickra_embed_core::{Indicator, Sma};
 ///
 /// let mut sma = Sma::<3>::new();
 /// assert_eq!(sma.update(1.0), None);

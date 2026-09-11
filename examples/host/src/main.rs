@@ -11,7 +11,7 @@
 
 use std::path::Path;
 
-use embed_core::{Ema, Indicator, Sma};
+use wickra_embed_core::{Ema, Indicator, Sma};
 
 fn main() {
     let path = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../golden/inputs/prices-01.csv");

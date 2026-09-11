@@ -1,9 +1,9 @@
-# embed-core
+# wickra-embed-core
 
 Allocation-free, `#![no_std]` streaming technical indicators — byte-for-byte
 identical to [wickra-core](https://crates.io/crates/wickra-core).
 
-`embed-core` is the computational heart of
+`wickra-embed-core` is the computational heart of
 [wickra-embed](https://github.com/wickra-lib/wickra-embed): a small, verified,
 no-alloc subset of the Wickra indicator catalogue (`Sma`, `Ema`, `Rsi`, `Atr`,
 `Roc`) for bare-metal and HFT hardware. Every update is O(1) with a bounded
@@ -12,7 +12,7 @@ produces the exact same bits the std `wickra-core` produces on a server —
 verified by a byte-parity test suite.
 
 ```rust
-use embed_core::{Indicator, Sma};
+use wickra_embed_core::{Indicator, Sma};
 
 let mut sma = Sma::<20>::new();      // window length is the const generic
 let mut latest = None;

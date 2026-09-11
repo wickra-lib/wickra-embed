@@ -17,7 +17,7 @@ use crate::traits::Indicator;
 /// # Example
 ///
 /// ```
-/// use embed_core::{Ema, Indicator};
+/// use wickra_embed_core::{Ema, Indicator};
 ///
 /// let mut ema = Ema::new(3);
 /// let mut last = None;

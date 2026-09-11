@@ -18,11 +18,11 @@
 use cortex_m::peripheral::{Peripherals, DWT};
 use cortex_m_rt::entry;
 use cortex_m_semihosting::{debug, hprintln};
-use embed_core::{Ema, Indicator, Sma};
+use wickra_embed_core::{Ema, Indicator, Sma};
 use panic_halt as _;
 
 /// A finite, drifting-and-oscillating price path. `libm::sin` is the same routine
-/// `embed-core` uses for its no_std math, so this needs no `std`.
+/// `wickra-embed-core` uses for its no_std math, so this needs no `std`.
 fn price(i: usize) -> f64 {
     100.0 + 8.0 * libm::sin(i as f64 * 0.1) + 0.05 * i as f64
 }

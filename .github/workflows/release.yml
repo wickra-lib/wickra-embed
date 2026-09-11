@@ -1,7 +1,7 @@
 name: Release
 
 # USER-GO / HARD-STOP: this runs only on a pushed `v*` tag and performs the
-# irreversible crates.io publish of embed-core plus the GitHub release. Never tag
+# irreversible crates.io publish of wickra-embed-core plus the GitHub release. Never tag
 # without explicit approval. There are no PyPI / npm / NuGet / Maven / Go /
 # r-universe steps — this product is C-ABI-only, so the language bindings that
 # other Wickra crates publish do not exist here. The C ABI ships as prebuilt
@@ -19,7 +19,7 @@ env:
 
 jobs:
   publish-crates:
-    name: Publish embed-core to crates.io
+    name: Publish wickra-embed-core to crates.io
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -29,8 +29,8 @@ jobs:
       # Only the no_std core is a library crate for downstream Rust firmware. The
       # C ABI crate (wickra-embed-c) is a staticlib/cdylib artifact, not a
       # registry dependency, so it is shipped as a release asset instead.
-      - name: Publish embed-core
-        run: cargo publish -p embed-core
+      - name: Publish wickra-embed-core
+        run: cargo publish -p wickra-embed-core
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
 

@@ -1,4 +1,4 @@
-//! Per-update latency of the allocation-free `embed-core` indicators.
+//! Per-update latency of the allocation-free `wickra-embed-core` indicators.
 //!
 //! Every indicator is `O(1)` per tick with a fixed-size state, so the interesting
 //! numbers are (1) the steady-state cost of a single `update` and (2) the
@@ -13,7 +13,7 @@
 use std::hint::black_box;
 
 use criterion::{criterion_group, criterion_main, Criterion};
-use embed_core::{Atr, Candle, Ema, Indicator, Roc, Rsi, Sma};
+use wickra_embed_core::{Atr, Candle, Ema, Indicator, Roc, Rsi, Sma};
 
 /// A finite, drifting-and-oscillating price path — never NaN/inf, and varied
 /// enough that `Rsi`/`Roc` returns stay non-degenerate.

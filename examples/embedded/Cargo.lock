@@ -59,13 +59,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "embed-core"
-version = "0.1.0"
-dependencies = [
- "libm",
-]
-
-[[package]]
 name = "embedded-hal"
 version = "0.2.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -183,13 +176,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "wickra-embed-core"
+version = "0.1.0"
+dependencies = [
+ "libm",
+]
+
+[[package]]
 name = "wickra-embed-example"
 version = "0.1.0"
 dependencies = [
  "cortex-m",
  "cortex-m-rt",
  "cortex-m-semihosting",
- "embed-core",
  "libm",
  "panic-halt",
+ "wickra-embed-core",
 ]

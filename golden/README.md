@@ -1,7 +1,7 @@
 # Golden vectors — the byte-parity moat
 
 These files are the reference for `wickra-embed`'s single guarantee: the value
-the `#![no_std]` `embed-core` computes on bare metal is **byte-for-byte
+the `#![no_std]` `wickra-embed-core` computes on bare metal is **byte-for-byte
 identical** to the value the std [`wickra-core`](https://github.com/wickra-lib/wickra)
 computes on a server. See [docs/PARITY.md](../docs/PARITY.md).
 
@@ -50,15 +50,15 @@ The generator and the replay check both live in
 and from `wickra-core`:
 
 ```bash
-cargo test -p embed-core --test golden bless -- --ignored
+cargo test -p wickra-embed-core --test golden bless -- --ignored
 ```
 
 Then commit the result. The always-on `golden_replay` test feeds the committed
-inputs through `embed-core` and asserts the output is bit-for-bit
+inputs through `wickra-embed-core` and asserts the output is bit-for-bit
 (`f64::to_bits`) equal to these expected columns:
 
 ```bash
-cargo test -p embed-core --test golden golden_replay
+cargo test -p wickra-embed-core --test golden golden_replay
 ```
 
 Regenerate only when the `wickra-core` reference itself changes (a new pinned

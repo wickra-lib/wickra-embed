@@ -8,7 +8,7 @@
 //! std `wickra-core` bit-for-bit but is outside the well-defined input domain, so
 //! the decoder excludes it rather than the core special-casing it.)
 
-use embed_core::{Indicator, Roc, Rsi, Sma};
+use wickra_embed_core::{Indicator, Roc, Rsi, Sma};
 use libfuzzer_sys::fuzz_target;
 
 /// Decode bytes into up to 128 positive, bounded prices (8 bytes per `f64`). The

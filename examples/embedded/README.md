@@ -35,7 +35,7 @@ cargo build --release --target thumbv7em-none-eabihf
 
 ## What it shows
 
-- `embed-core` compiled with `default-features = false` — strictly `#![no_std]`,
+- `wickra-embed-core` compiled with `default-features = false` — strictly `#![no_std]`,
   no allocator linked. The linker would fail if anything reached for the heap.
 - Deterministic O(1) updates: the mean cycles-per-update is bounded, which is the
   property that matters for hard-real-time firmware.

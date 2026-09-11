@@ -216,16 +216,7 @@ name = "embed-bench"
 version = "0.1.0"
 dependencies = [
  "criterion",
- "embed-core",
-]
-
-[[package]]
-name = "embed-core"
-version = "0.1.0"
-dependencies = [
- "libm",
- "proptest",
- "wickra-core",
+ "wickra-embed-core",
 ]
 
 [[package]]
@@ -838,7 +829,16 @@ dependencies = [
 name = "wickra-embed-c"
 version = "0.1.0"
 dependencies = [
- "embed-core",
+ "wickra-embed-core",
+]
+
+[[package]]
+name = "wickra-embed-core"
+version = "0.1.0"
+dependencies = [
+ "libm",
+ "proptest",
+ "wickra-core",
 ]
 
 [[package]]

@@ -1,6 +1,6 @@
 # Examples
 
-Three ways to run the allocation-free `embed-core` indicators, from a desktop
+Three ways to run the allocation-free `wickra-embed-core` indicators, from a desktop
 sanity check down to bare metal.
 
 | Example | What it shows | How to run |

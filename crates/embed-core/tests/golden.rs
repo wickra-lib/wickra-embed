@@ -9,9 +9,9 @@
 //!
 //! - [`bless`] (`#[ignore]`) regenerates every `golden/` file from the formula
 //!   and from `wickra-core`. Run it deliberately when the reference changes:
-//!   `cargo test -p embed-core --test golden bless -- --ignored`.
+//!   `cargo test -p wickra-embed-core --test golden bless -- --ignored`.
 //! - [`golden_replay`] (the always-on test) feeds the committed inputs through
-//!   the `#![no_std]` `embed-core` indicators and asserts the output is
+//!   the `#![no_std]` `wickra-embed-core` indicators and asserts the output is
 //!   **bit-for-bit** (`f64::to_bits`) equal to the committed expected files.
 //!
 //! The live-`wickra-core` direction and the `libm` math path are covered
@@ -21,7 +21,7 @@ use std::fmt::Write as _;
 use std::fs;
 use std::path::{Path, PathBuf};
 
-use embed_core::{Atr, Candle, Ema, Indicator, Roc, Rsi, Sma};
+use wickra_embed_core::{Atr, Candle, Ema, Indicator, Roc, Rsi, Sma};
 
 // --- Deterministic input formula (documented in golden/README.md) -----------
 
@@ -151,7 +151,7 @@ fn ref_atr14(candles: &[Candle]) -> Vec<Option<f64>> {
         .collect()
 }
 
-// --- embed-core column producers (the subject under test) -------------------
+// --- wickra-embed-core column producers (the subject under test) -------------------
 
 fn emb_sma20(prices: &[f64]) -> Vec<Option<f64>> {
     let mut s = Sma::<20>::new();
@@ -219,7 +219,7 @@ fn bless() {
 
 // --- Replay (the always-on parity assertion) --------------------------------
 
-/// Read the committed inputs, run the `embed-core` indicators, and assert every
+/// Read the committed inputs, run the `wickra-embed-core` indicators, and assert every
 /// output bit-matches the committed `wickra-core` expected column.
 fn read_prices() -> Vec<f64> {
     let path = golden_dir().join("inputs/prices-01.csv");
@@ -253,7 +253,7 @@ fn assert_bit_equal(name: &str, got: &[Option<f64>], expected: &[Option<f64>]) {
         assert_eq!(
             g.map(f64::to_bits),
             e.map(f64::to_bits),
-            "{name}: row {i} differs (embed-core {g:?} vs wickra-core {e:?})"
+            "{name}: row {i} differs (wickra-embed-core {g:?} vs wickra-core {e:?})"
         );
     }
 }

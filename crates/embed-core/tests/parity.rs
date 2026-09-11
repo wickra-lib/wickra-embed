@@ -1,8 +1,8 @@
 //! Live byte-parity against the std `wickra-core`, plus the `math` switch-point.
 //!
-//! `golden.rs` pins `embed-core` against *frozen* `golden/expected/*.csv`. This
+//! `golden.rs` pins `wickra-embed-core` against *frozen* `golden/expected/*.csv`. This
 //! file proves the complementary direction: over an independent, longer input
-//! series, every `embed-core` output is **bit-for-bit** (`f64::to_bits`) equal to
+//! series, every `wickra-embed-core` output is **bit-for-bit** (`f64::to_bits`) equal to
 //! the value the *live* `wickra-core` produces right now — so a drift introduced
 //! by a `wickra-core` bump is caught even before the golden files are re-blessed.
 //!
@@ -12,7 +12,7 @@
 //! That is what makes the value on a soft-float Cortex-M0 equal the value on the
 //! host.
 
-use embed_core::{Atr, Candle, Ema, Indicator, Roc, Rsi, Sma};
+use wickra_embed_core::{Atr, Candle, Ema, Indicator, Roc, Rsi, Sma};
 
 /// A longer, drift-and-oscillate path than the golden vectors, to exercise the
 /// rolling-sum reseed many times: `x(i) = 100 + 12·sin(i/5) + 0.03·i`.

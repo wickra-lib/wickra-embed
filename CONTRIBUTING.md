@@ -24,10 +24,10 @@ Every change runs green locally before a commit:
 cargo fmt --all
 cargo clippy --workspace --all-targets --all-features -- -D warnings
 # The no_std core must build without std on the bare-metal targets:
-cargo build -p embed-core --no-default-features --target thumbv7em-none-eabihf
-cargo build -p embed-core --no-default-features --target thumbv6m-none-eabi
+cargo build -p wickra-embed-core --no-default-features --target thumbv7em-none-eabihf
+cargo build -p wickra-embed-core --no-default-features --target thumbv6m-none-eabi
 # Host tests, including byte-parity against wickra-core:
-cargo test -p embed-core --all-features
+cargo test -p wickra-embed-core --all-features
 cargo deny check
 ```
 

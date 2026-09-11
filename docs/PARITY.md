@@ -20,7 +20,7 @@ depend on the platform — a soft-float Cortex-M0, a hardware-FPU Cortex-M4F, an
 an x86-64 server all compute the identical bits, provided the **operations happen
 in the identical order**.
 
-So byte-parity reduces to one engineering rule: `embed-core` performs the exact
+So byte-parity reduces to one engineering rule: `wickra-embed-core` performs the exact
 same floating-point operations, in the exact same order, as `wickra-core`. Where
 the std code keeps a `Box<[f64]>` window, the embedded code keeps a const-generic
 ring — but the arithmetic is preserved to the operation:

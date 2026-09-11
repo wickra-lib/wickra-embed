@@ -10,7 +10,7 @@ deliberately absent; the order is the commitment.
 The first line establishes the moat: a small, verified, no-alloc subset of the
 Wickra indicator catalogue that is byte-for-byte identical to `wickra-core`.
 
-- **Core (`embed-core`).** The `Indicator` contract, a const-generic
+- **Core (`wickra-embed-core`).** The `Indicator` contract, a const-generic
   fixed-capacity ring buffer, and the verified no-alloc subset: `Sma`, `Ema`,
   `Rsi`, `Atr`, `Roc`. `#![no_std]`, `#![forbid(unsafe_code)]`, zero allocation,
   O(1) bounded-latency updates.
@@ -26,7 +26,7 @@ Wickra indicator catalogue that is byte-for-byte identical to `wickra-core`.
 
 ### Weg B, and why
 
-For v0.1 the no-alloc core (`embed-core`) **reimplements** the indicator subset
+For v0.1 the no-alloc core (`wickra-embed-core`) **reimplements** the indicator subset
 against fixed-capacity storage rather than depending on `wickra-core` at runtime.
 `wickra-core` is std — it uses `Box`/`Vec`/`alloc` — and cannot be linked into a
 bare-metal, no-allocator build. So it stays a **dev-dependency parity oracle**:
@@ -41,7 +41,7 @@ v0.1.
 - **Grow the subset.** Bollinger, MACD, Stochastic and further indicators, each
   admitted only once its no-alloc form passes byte-parity.
 - **Weg A — shared no_std core upstream.** A longer-term option: make the relevant
-  parts of `wickra-core` themselves `no_std` + optional-`alloc`, so `embed-core`
+  parts of `wickra-core` themselves `no_std` + optional-`alloc`, so `wickra-embed-core`
   could depend on them directly instead of reimplementing. This is an upstream
   refactor of `wickra-core`, tracked as future work, and explicitly **not** part
   of v0.1.
