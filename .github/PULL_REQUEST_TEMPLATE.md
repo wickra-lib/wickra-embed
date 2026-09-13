@@ -1,4 +1,10 @@
-<!-- Keep it short. One logical change per PR. -->
+<!-- Keep it short. One logical change per PR.
+
+     Changing the release process, the C ABI's handle contract, or the public
+     API? There is a longer template that asks what such a change has to answer:
+     reopen this pull request with ?template=detailed.md appended to the URL.
+     GitHub offers no picker for a second template, so it is only reachable that
+     way. -->
 
 ## What
 

@@ -21,8 +21,8 @@ computes on a server. See [docs/PARITY.md](../docs/PARITY.md).
 | `expected/atr14.csv` | `Atr<14>` output (over `ohlc-01`). |
 | `expected/roc10.csv` | `Roc<10>` output. |
 
-An **empty cell** in an `expected` column is `None` — the indicator is still
-warming up. So `sma20` has 19 empty cells then a value from the 20th row on,
+A **`nan` cell** in an `expected` column is `None` — the indicator is still
+warming up. So `sma20` has 19 `nan` cells then a value from the 20th row on,
 `rsi14` warms up for 15 rows, `atr14` for 14, and `roc10` for 11.
 
 ## The input formula

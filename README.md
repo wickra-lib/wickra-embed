@@ -29,10 +29,22 @@ is O(1) with a bounded worst-case latency, uses fixed-capacity buffers (no
 allocation), and produces the **byte-for-byte identical** value the std
 `wickra-core` produces on a server — verified by a parity test suite.
 
-> **Part of the [Wickra ecosystem](https://github.com/wickra-lib):** the same data-driven core and ten-language binding surface also power [wickra-exchange](https://github.com/wickra-lib/wickra-exchange), [wickra-backtest](https://github.com/wickra-lib/wickra-backtest), [wickra-terminal](https://github.com/wickra-lib/wickra-terminal) and 20 more — see [the full list](https://github.com/wickra-lib).
-> indicator math powers the full-fat [wickra](https://github.com/wickra-lib/wickra)
-> library and its downstream tools; `wickra-embed` is the no-alloc, bare-metal
-> distillation of that math.
+```toml
+[dependencies]
+wickra-embed-core = { version = "0.1", default-features = false }
+```
+
+```rust
+use wickra_embed_core::{Indicator, Sma};
+
+let mut sma = Sma::<20>::new();
+for price in [101.0, 102.5, 101.8] {
+    if let Some(v) = sma.update(price) {
+        // one value per input once the warmup is over, no heap touched
+        let _ = v;
+    }
+}
+```
 
 ## Status
 
@@ -57,7 +69,7 @@ Add the core with default features off — that is the `#![no_std]`, no-alloc bu
 
 ```toml
 [dependencies]
-wickra-embed-core = { git = "https://github.com/wickra-lib/wickra-embed", default-features = false }
+wickra-embed-core = { version = "0.1", default-features = false }
 ```
 
 Every indicator holds its whole state inline (a const-generic ring plus a few
@@ -138,7 +150,8 @@ byte-identical across:
 | `thumbv6m-none-eabi`    | Cortex-M0 / M0+, all soft-float |
 | `x86_64-*` (host)       | tests, doctests, benches |
 
-The bare-metal targets are pinned in `rust-toolchain.toml`. The design, the
+The bare-metal targets are added with `rustup target add`; CI installs them
+per job. The design, the
 panic-free hot path, and the `libm` math switch are covered in
 [docs/NO_STD.md](docs/NO_STD.md).
 
@@ -156,21 +169,45 @@ fuzz                   libFuzzer targets over the update path
 docs                   NO_STD / INDICATORS / PARITY / C_ABI / LATENCY deep-dives
 ```
 
-## Building from source
+## Building everything from source
 
 ```bash
-# Host build + tests (parity against wickra-core):
-cargo test -p wickra-embed-core --all-features
+cargo build --workspace
+cargo test  --workspace --all-features
+cargo clippy --workspace --all-targets --all-features -- -D warnings
 
-# The no_std core on bare-metal targets (pulled automatically via rust-toolchain.toml):
+# The no_std core on the bare-metal targets (rustup target add them once):
 cargo build -p wickra-embed-core --no-default-features --target thumbv7em-none-eabihf
 cargo build -p wickra-embed-core --no-default-features --target thumbv6m-none-eabi
+
+# The C ABI staticlib for a target, and the C sample against it:
+cargo rustc -p wickra-embed-c --release --crate-type staticlib
+cmake -S examples/c -B examples/c/build && cmake --build examples/c/build && ctest --test-dir examples/c/build
 ```
+
+## Testing
+
+Run the suites with the commands in
+[Building everything from source](#building-everything-from-source).
+
+- **`wickra-embed-core`** — unit tests per indicator, the handle contract
+  (`contract.rs`), property tests over the update path, and the byte-parity
+  suite (`parity.rs`) that folds the same inputs through `wickra-core` and
+  asserts identical bits. The golden fixtures in `golden/` are the anchor: the
+  committed columns are what every target must reproduce.
+- **C ABI** — `examples/c` builds and runs the sample against the staticlib
+  through `ctest`; the header is regenerated with cbindgen and diffed in CI so
+  it cannot drift from the exported symbols.
+- **Bare metal** — the no_std core builds for `thumbv7em-none-eabihf` and
+  `thumbv6m-none-eabi`, the no-alloc guard proves no allocator symbol is linked,
+  and `examples/embedded` runs under QEMU.
+- **Fuzz** — `fuzz/` holds libFuzzer targets over the update path; CI runs each
+  for a short smoke.
 
 ## Requirements
 
 - Rust 1.86+ (MSRV). The bare-metal targets `thumbv7em-none-eabihf` and
-  `thumbv6m-none-eabi` are pinned in `rust-toolchain.toml`.
+  `thumbv6m-none-eabi` come from `rustup target add`.
 - Optional: `qemu-system-arm` to run the Cortex-M example, `cmake` + a C toolchain
   to build the C usage sample.
 
@@ -179,6 +216,38 @@ cargo build -p wickra-embed-core --no-default-features --target thumbv6m-none-ea
 Per-update latency (host ns and MCU cycles) is tracked in
 [BENCHMARKS.md](BENCHMARKS.md) and [docs/LATENCY.md](docs/LATENCY.md); the
 Cortex-M cycle numbers land with the QEMU example run.
+
+## Ecosystem
+
+Part of the [Wickra](https://github.com/wickra-lib/wickra) family — each one a
+data-driven core with a CLI and the same ten-language binding surface:
+
+- [**wickra**](https://github.com/wickra-lib/wickra) — main library (Rust core + Python / Node.js / WASM bindings + a C ABI for C / C++ / C# / Go / Java / R)
+- [**wickra-playground**](https://github.com/wickra-lib/wickra-playground) — a polyglot strategy playground: one StrategySpec live side by side in Python, Rust, JS and Go, entirely in the browser
+- [**wickra-exchange**](https://github.com/wickra-lib/wickra-exchange) — unified market-data + execution across ten crypto exchanges
+- [**wickra-backtest**](https://github.com/wickra-lib/wickra-backtest) — event-driven backtester over the Wickra core
+- [**wickra-terminal**](https://github.com/wickra-lib/wickra-terminal) — the trading terminal: a TUI and a browser renderer over the stack
+- [**wickra-screener**](https://github.com/wickra-lib/wickra-screener) — parallel multi-symbol screening over 514 streaming indicators
+- [**wickra-radar**](https://github.com/wickra-lib/wickra-radar) — perp-universe alert radar: OI delta, funding flip, book imbalance, liquidation clusters, OI/price divergence
+- [**wickra-copilot**](https://github.com/wickra-lib/wickra-copilot) — local market copilot grounded in real order-book, liquidation and funding microstructure
+- [**wickra-shazam**](https://github.com/wickra-lib/wickra-shazam) — match an asset's current microstructure fingerprint against its entire history
+- [**wickra-benchmark**](https://github.com/wickra-lib/wickra-benchmark) — reproducible, golden-verified benchmark suite — recompute any (strategy, dataset, report) in ten languages and confirm it byte-for-byte
+- [**wickra-strategy-ci**](https://github.com/wickra-lib/wickra-strategy-ci) — Jest for trading strategies: golden-pin the report, catch regressions in CI, property-test against fuzzed data
+- [**wickra-verify**](https://github.com/wickra-lib/wickra-verify) — confirm or refute a claimed backtest report against its strategy and data, in ten languages
+- [**wickra-proof**](https://github.com/wickra-lib/wickra-proof) — Proof-of-Backtest: deterministic (spec, data) → report + blake3 hash, recomputable byte-for-byte in ten languages
+- [**wickra-zk**](https://github.com/wickra-lib/wickra-zk) — prove a backtest zero-knowledge — on-chain-verifiable performance without revealing the data or the strategy
+- [**wickra-impact**](https://github.com/wickra-lib/wickra-impact) — the backtester that knows you would have moved the market: agent-based fills on the real historical L2 order book
+- [**wickra-darwin**](https://github.com/wickra-lib/wickra-darwin) — evolutionary strategy search at millions of backtests per second, mutating and crossing JSON specs across the 514-indicator space
+- [**wickra-gym**](https://github.com/wickra-lib/wickra-gym) — a Gymnasium-compatible, microstructure-aware backtest environment with O(1) steps for deterministic RL rollouts
+- [**wickra-feature-store**](https://github.com/wickra-lib/wickra-feature-store) — OHLCV and microstructure streams into ML-ready feature matrices over 514 O(1) streaming indicators
+- [**wickra-genome**](https://github.com/wickra-lib/wickra-genome) — a vector database of the whole market: every asset a 514-dim live vector, for similarity search, clustering and anomaly detection
+- [**wickra-timemachine**](https://github.com/wickra-lib/wickra-timemachine) — scrub the whole market like a video — every symbol, full order book, rewound to any moment via deterministic re-fold
+- [**wickra-synth**](https://github.com/wickra-lib/wickra-synth) — deterministic synthetic market microstructure: OHLCV, order book, trades and funding from a single seed
+- [**wickra-compile**](https://github.com/wickra-lib/wickra-compile) — compile a strategy spec into a standalone deployable: a WASM module, a self-contained binary, or a `no_std` artifact
+- [**wickra-pico**](https://github.com/wickra-lib/wickra-pico) — the O(1) indicator core running bare-metal on a $5 Raspberry Pi Pico — the LED blinks on the EMA cross
+
+Docs at [docs.wickra.org](https://docs.wickra.org); the marketing site and
+in-browser demo at [wickra.org](https://wickra.org).
 
 ## Contributing
 
