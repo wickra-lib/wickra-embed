@@ -7,7 +7,7 @@
 [![CI](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/ci.svg)](https://github.com/wickra-lib/wickra-embed/actions/workflows/ci.yml)
 [![CodeQL](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/codeql.svg)](https://github.com/wickra-lib/wickra-embed/actions/workflows/codeql.yml)
 [![GitHub release](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/release.svg)](https://github.com/wickra-lib/wickra-embed/releases/latest)
-[![crates.io](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/crates.svg)](https://crates.io/crates/embed-core)
+[![crates.io](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/crates.svg)](https://crates.io/crates/wickra-embed-core)
 [![License: MIT OR Apache-2.0](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/license.svg)](#license)
 [![OpenSSF Scorecard](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/scorecard.svg)](https://scorecard.dev/viewer/?uri=github.com/wickra-lib/wickra-embed)
 [![OpenSSF Best Practices](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/best-practices.svg)](https://www.bestpractices.dev)
