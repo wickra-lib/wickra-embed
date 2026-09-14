@@ -9,10 +9,12 @@
 # be overridden for out-of-tree builds.
 
 cmake_minimum_required(VERSION 3.15)
-project(wickra_embed_examples C)
+project(wickra_embed_examples C CXX)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(WICKRA_EMBED_LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../target/release"
     CACHE PATH "Directory containing the built wickra-embed C ABI library")
@@ -43,3 +45,18 @@ enable_testing()
 add_test(NAME sma_signal COMMAND sma_signal)
 # A missing runtime dependency must fail fast, never block the runner for hours.
 set_tests_properties(sma_signal PROPERTIES TIMEOUT 60)
+
+# The C++ wrapper (wickra_embed.hpp) gets the same sample, so a header that
+# stops compiling or a wrapper that misreads a status code fails here.
+add_executable(sma_signal_cpp sma_signal.cpp)
+target_include_directories(sma_signal_cpp PRIVATE "${WICKRA_EMBED_INCLUDE}")
+target_link_libraries(sma_signal_cpp PRIVATE "${WICKRA_EMBED_LIB}")
+if(WIN32)
+    add_custom_command(TARGET sma_signal_cpp POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${WICKRA_EMBED_LIB_DIR}/wickra_embed.dll"
+            "$<TARGET_FILE_DIR:sma_signal_cpp>"
+        VERBATIM)
+endif()
+add_test(NAME sma_signal_cpp COMMAND sma_signal_cpp)
+set_tests_properties(sma_signal_cpp PROPERTIES TIMEOUT 60)

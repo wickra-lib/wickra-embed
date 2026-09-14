@@ -162,3 +162,12 @@ the Rust surface silently.
 - [PARITY.md](PARITY.md) — how byte-parity with `wickra-core` is guaranteed.
 - [LATENCY.md](LATENCY.md) — the bounded per-update latency the ABI inherits.
 - [INDICATORS.md](INDICATORS.md) — the exported subset and how it grows.
+
+## C++
+
+`bindings/c/include/wickra_embed.hpp` wraps this contract for C++ without
+changing it: the handle's bytes live inside a `wickra_embed::Sma` (or `Ema`,
+`Rsi`, `Atr`, `Roc`) object, the constructor checks the run-time size and
+alignment against the object's capacity, and `update` returns the status code
+and the value together. It allocates nothing and throws nothing, so it holds on
+the bare-metal targets as well as on a host.

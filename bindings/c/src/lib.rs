@@ -522,7 +522,7 @@ mod tests {
         let mut out = 0.0_f64;
         unsafe {
             assert_eq!(
-                wickra_sma_update(ptr::null_mut(), 1.0, &mut out),
+                wickra_sma_update(ptr::null_mut(), 1.0, &raw mut out),
                 WICKRA_EMBED_ERR_NULL
             );
             assert_eq!(
@@ -538,11 +538,11 @@ mod tests {
         let mut out = 0.0_f64;
         unsafe {
             assert_eq!(
-                wickra_sma_update(slot.as_mut_ptr(), f64::NAN, &mut out),
+                wickra_sma_update(slot.as_mut_ptr(), f64::NAN, &raw mut out),
                 WICKRA_EMBED_ERR_NONFINITE
             );
             assert_eq!(
-                wickra_sma_update(slot.as_mut_ptr(), f64::INFINITY, &mut out),
+                wickra_sma_update(slot.as_mut_ptr(), f64::INFINITY, &raw mut out),
                 WICKRA_EMBED_ERR_NONFINITE
             );
         }
@@ -555,7 +555,7 @@ mod tests {
         unsafe {
             assert_eq!(wickra_atr_init(slot.as_mut_ptr()), WICKRA_EMBED_OK);
             assert_eq!(
-                wickra_atr_update(slot.as_mut_ptr(), 1.0, f64::NAN, 1.0, 1.0, &mut out),
+                wickra_atr_update(slot.as_mut_ptr(), 1.0, f64::NAN, 1.0, 1.0, &raw mut out),
                 WICKRA_EMBED_ERR_NONFINITE
             );
         }
@@ -571,12 +571,12 @@ mod tests {
             // First 19 updates warm up; the 20th produces the average.
             for i in 1..=19 {
                 assert_eq!(
-                    wickra_sma_update(h, f64::from(i), &mut out),
+                    wickra_sma_update(h, f64::from(i), &raw mut out),
                     WICKRA_EMBED_WARMUP
                 );
                 assert_eq!(wickra_sma_is_ready(h), 0);
             }
-            assert_eq!(wickra_sma_update(h, 20.0, &mut out), WICKRA_EMBED_READY);
+            assert_eq!(wickra_sma_update(h, 20.0, &raw mut out), WICKRA_EMBED_READY);
             assert_eq!(wickra_sma_is_ready(h), 1);
         }
         assert!((out - 10.5).abs() < 1e-9); // mean of 1..=20
@@ -589,12 +589,12 @@ mod tests {
         let mut out = 0.0_f64;
         unsafe {
             for i in 1..=20 {
-                wickra_sma_update(h, f64::from(i), &mut out);
+                wickra_sma_update(h, f64::from(i), &raw mut out);
             }
             assert_eq!(wickra_sma_is_ready(h), 1);
             wickra_sma_reset(h);
             assert_eq!(wickra_sma_is_ready(h), 0);
-            assert_eq!(wickra_sma_update(h, 1.0, &mut out), WICKRA_EMBED_WARMUP);
+            assert_eq!(wickra_sma_update(h, 1.0, &raw mut out), WICKRA_EMBED_WARMUP);
         }
     }
 
@@ -616,7 +616,7 @@ mod tests {
             assert_eq!(wickra_ema_init(e.as_mut_ptr(), 3), WICKRA_EMBED_OK);
             let mut ready = WICKRA_EMBED_WARMUP;
             for i in 1..=5 {
-                ready = wickra_ema_update(e.as_mut_ptr(), f64::from(i), &mut out);
+                ready = wickra_ema_update(e.as_mut_ptr(), f64::from(i), &raw mut out);
             }
             assert_eq!(ready, WICKRA_EMBED_READY);
 
