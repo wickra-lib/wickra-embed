@@ -168,8 +168,14 @@ jobs:
           echo "ci.yml on ${SHA}: success"
           # Newest run per workflow name: a rerun that went green supersedes
           # the failed attempt it replaced.
+          #
+          # Dependabot's own runs are not this repository's CI: when it tries a
+          # security update on the tagged commit and the update is impossible
+          # (a pin, a transitive dependency with no fixed line), that run is
+          # red on the SHA without a single job of ours having failed. They
+          # carry `event: dynamic`, which nothing of ours does.
           bad=$(gh api "repos/${REPO}/actions/runs?head_sha=${SHA}&per_page=100" \
-                  -q '[.workflow_runs[] | select(.name != "Release")]
+                  -q '[.workflow_runs[] | select(.name != "Release" and .event != "dynamic")]
                       | group_by(.name) | map(max_by(.id))
                       | map(select(.conclusion == "failure" or .conclusion == "timed_out"
                                    or .conclusion == "cancelled"))
@@ -218,7 +224,7 @@ jobs:
           name: crate-files
           path: target/package/*.crate
       - name: Install cargo-cyclonedx
-        uses: taiki-e/install-action@c3ec0de9ae7f1019cea21aa96aa0a895b9552063 # v2.87.9
+        uses: taiki-e/install-action@3f74d7c16a4242f1c95561e98edc25d36adb4375 # v2.87.12
         with:
           tool: cargo-cyclonedx
       - name: Generate the CycloneDX SBOM
@@ -283,7 +289,7 @@ jobs:
       # Draft first so a partial asset upload never surfaces a half-baked
       # release; publish-release flips it live once provenance is attached.
       - name: Create / update the draft GitHub Release with assets
-        uses: softprops/action-gh-release@3d0d9888cb7fd7b750713d6e236d1fcb99157228 # v3.0.2
+        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
         with:
           tag_name: ${{ steps.tag.outputs.tag }}
           name: wickra-embed ${{ steps.tag.outputs.tag }}
