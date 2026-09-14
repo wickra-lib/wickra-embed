@@ -103,7 +103,11 @@ jobs:
           FEATURES: ${{ matrix.features }}
           TARGET: ${{ matrix.target }}
         shell: bash
-        run: cargo rustc -p wickra-embed-c --release $FEATURES --target "$TARGET" --crate-type staticlib
+        run: |
+          # FEATURES is one flag or empty; an empty quoted argument would
+          # reach cargo, so the flag is passed only when it is set.
+          if [ -n "$FEATURES" ]; then set -- "$FEATURES"; else set --; fi
+          cargo rustc -p wickra-embed-c --release "$@" --target "$TARGET" --crate-type staticlib
       - name: Package the staticlib, the headers and the licence texts
         shell: bash
         env:
