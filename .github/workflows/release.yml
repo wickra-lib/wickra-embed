@@ -168,8 +168,14 @@ jobs:
           echo "ci.yml on ${SHA}: success"
           # Newest run per workflow name: a rerun that went green supersedes
           # the failed attempt it replaced.
+          #
+          # Dependabot's own runs are not this repository's CI: when it tries a
+          # security update on the tagged commit and the update is impossible
+          # (a pin, a transitive dependency with no fixed line), that run is
+          # red on the SHA without a single job of ours having failed. They
+          # carry `event: dynamic`, which nothing of ours does.
           bad=$(gh api "repos/${REPO}/actions/runs?head_sha=${SHA}&per_page=100" \
-                  -q '[.workflow_runs[] | select(.name != "Release")]
+                  -q '[.workflow_runs[] | select(.name != "Release" and .event != "dynamic")]
                       | group_by(.name) | map(max_by(.id))
                       | map(select(.conclusion == "failure" or .conclusion == "timed_out"
                                    or .conclusion == "cancelled"))
