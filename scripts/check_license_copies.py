@@ -6,17 +6,17 @@ expression is a reference to two documents, not the documents. A package that
 ships the expression alone leaves whoever received it with terms they have to go
 and find.
 
-The npm packages are handled at publish time (see release.yml), because npm is
-happy to pack a file that appears in the working tree moments beforehand. Cargo
-is not: it decides what to package from git, so a copy that is untracked makes
+Cargo decides what to package from git, so a copy that is untracked makes
 `cargo publish` refuse the dirty tree, and a copy that is gitignored is dropped
 from the .crate entirely. Committed copies are the only thing that works, and the
 cost of a committed copy is drift -- which is what this checks.
 
 Locations are derived, not listed: every workspace member that can go to
-crates.io, plus the Python binding, whose wheel and sdist are built by maturin
-from that directory. Add a publishable crate and this starts requiring its
-licences without anyone remembering to edit the list.
+crates.io. Add a publishable crate and this starts requiring its licences
+without anyone remembering to edit the list. A sibling with an npm binding
+checks its packages here too (they are staged at publish time); wickra-embed
+publishes to crates.io alone, and the C ABI ships as a static library archive
+from the release workflow, so the check stops at the crates.
 
 Run from the repository root:  python scripts/check_license_copies.py
 """
@@ -111,16 +111,19 @@ def main() -> int:
         print("\ncopy LICENSE-MIT and LICENSE-APACHE from the repository root.", file=sys.stderr)
         return 1
 
-    npm_problems = check_npm()
-    if npm_problems:
-        print("\nthe npm packages would ship without their licence texts:",
-              file=sys.stderr)
-        for failure in npm_problems:
-            print(f"  {failure}", file=sys.stderr)
-        return 1
+    if os.path.isfile(os.path.join(ROOT, "bindings", "node", "package.json")):
+        npm_problems = check_npm()
+        if npm_problems:
+            print("\nthe npm packages would ship without their licence texts:",
+                  file=sys.stderr)
+            for failure in npm_problems:
+                print(f"  {failure}", file=sys.stderr)
+            return 1
+        print(f"\n{len(directories)} published packages carry both licence texts, "
+              "and the npm side is staged and allow-listed.")
+        return 0
 
-    print(f"\n{len(directories)} published packages carry both licence texts, "
-          "and the npm side is staged and allow-listed.")
+    print(f"\n{len(directories)} published packages carry both licence texts.")
     return 0
 
 
