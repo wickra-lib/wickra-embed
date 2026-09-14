@@ -80,10 +80,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target:
-          - thumbv7em-none-eabihf
-          - thumbv6m-none-eabi
-          - x86_64-unknown-linux-gnu
+        include:
+          # The bare-metal archives carry no std: the firmware supplies
+          # `wickra_embed_panic` (see the C ABI docs). The host archive keeps
+          # the default `std` feature and Rust's own panic handler.
+          - { target: thumbv7em-none-eabihf, features: --no-default-features }
+          - { target: thumbv6m-none-eabi, features: --no-default-features }
+          - { target: x86_64-unknown-linux-gnu, features: "" }
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -96,7 +99,15 @@ jobs:
       # rustc for the staticlib crate-type only. That yields a uniform
       # `libwickra_embed.a` for every triple, which firmware links directly.
       - name: Build the no-alloc C ABI staticlib
-        run: cargo rustc -p wickra-embed-c --release --target ${{ matrix.target }} --crate-type staticlib
+        env:
+          FEATURES: ${{ matrix.features }}
+          TARGET: ${{ matrix.target }}
+        shell: bash
+        run: |
+          # FEATURES is one flag or empty; an empty quoted argument would
+          # reach cargo, so the flag is passed only when it is set.
+          if [ -n "$FEATURES" ]; then set -- "$FEATURES"; else set --; fi
+          cargo rustc -p wickra-embed-c --release "$@" --target "$TARGET" --crate-type staticlib
       - name: Package the staticlib, the headers and the licence texts
         shell: bash
         env:

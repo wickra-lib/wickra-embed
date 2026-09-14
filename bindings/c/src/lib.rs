@@ -46,6 +46,15 @@
 //! `unwrap`, no out-of-bounds indexing, warmup expressed as `None`), and the
 //! release profile is `panic = "abort"`. A `no_std` target has no unwinding
 //! machinery to catch anyway.
+//!
+//! # The firmware's panic hook
+//!
+//! A staticlib must carry a `#[panic_handler]`, and a C firmware has none to
+//! offer. With the `std` feature off, the handler in this crate forwards to
+//! `wickra_embed_panic()`, a C function the firmware defines and that must not
+//! return (reset, halt, log -- the firmware's call). The core never reaches it;
+//! it exists so the archive links. A host build (the default `std` feature)
+//! links Rust's own handler and never references the hook.
 
 #![cfg_attr(not(feature = "std"), no_std)]
 #![allow(unsafe_code)]
@@ -53,6 +62,30 @@
 use core::ffi::{c_char, c_int};
 
 use wickra_embed_core::{Atr, Candle, Ema, Indicator, Roc, Rsi, Sma};
+
+unsafe extern "C" {
+    /// Defined by the firmware when it links the bare-metal staticlib (built
+    /// with `--no-default-features`): the library's panic handler forwards
+    /// here, and the function must not return (reset, halt, log). The core is
+    /// written never to panic, so this is the archive's link requirement, not
+    /// a path the indicators take. A host build (the default `std` feature)
+    /// never references it -- the declaration stays so the generated header
+    /// states the contract in every build.
+    #[allow(dead_code)]
+    fn wickra_embed_panic() -> !;
+}
+
+/// The `no_std` panic handler: hand the panic to the firmware. The core is
+/// written not to panic, so this is the archive's link requirement, not a
+/// path the indicators take.
+#[cfg(not(feature = "std"))]
+#[panic_handler]
+fn panic(_: &core::panic::PanicInfo) -> ! {
+    // SAFETY: the firmware defines `wickra_embed_panic` as a function that
+    // takes no arguments and never returns; that is the whole contract, and a
+    // firmware that omits it fails to link rather than misbehave.
+    unsafe { wickra_embed_panic() }
+}
 
 // Fixed window sizes per exported type. These match the golden reference set
 // (`sma20`, `ema20`, `rsi14`, `atr14`, `roc10`); additional windows would be

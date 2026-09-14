@@ -67,7 +67,10 @@ therefore never panics on the hot path:
 - `#![forbid(unsafe_code)]` on the whole crate.
 
 A `no_std` *binary* (the QEMU/Cortex-M example) still needs a `#[panic_handler]`
-and `panic = "abort"`, but the library itself never reaches one.
+and `panic = "abort"`, but the library itself never reaches one. The C staticlib
+is the one artefact that must carry a handler of its own (an archive without one
+does not build): with `std` off it forwards to `wickra_embed_panic()`, which the
+firmware defines — see [C_ABI.md](C_ABI.md).
 
 ## Targets
 

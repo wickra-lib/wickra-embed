@@ -145,8 +145,10 @@ server — the same bits on a Cortex-M0, a Cortex-M4F, and an x86-64 host. See
 # Host build (staticlib + cdylib); links a panic handler via the default `std` feature:
 cargo build -p wickra-embed-c --release
 
-# Firmware build: link the staticlib; the firmware provides the panic handler:
-cargo build -p wickra-embed-c --no-default-features --release --target thumbv7em-none-eabihf
+# Firmware build: the staticlib only (a bare-metal target has no dynamic loader),
+# without std; the firmware defines `void wickra_embed_panic(void)`, which the
+# library's panic handler calls and which must not return:
+cargo rustc -p wickra-embed-c --no-default-features --release --target thumbv7em-none-eabihf --crate-type staticlib
 ```
 
 Bare-metal targets build the `staticlib` (a `cdylib` needs a dynamic loader the
