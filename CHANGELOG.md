@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-09-14
+
 ### Changed
 
 - **The repository has the family's shape.** SPDX-named licence copies under
@@ -91,4 +93,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (issue/PR templates, `setup-rust`, `sync-metadata.py`, dependabot), and dual
   `MIT OR Apache-2.0` licensing.
 
-[Unreleased]: https://github.com/wickra-lib/wickra-embed/commits/main
+[Unreleased]: https://github.com/wickra-lib/wickra-embed/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/wickra-lib/wickra-embed/releases/tag/v0.1.0

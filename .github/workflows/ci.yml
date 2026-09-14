@@ -365,9 +365,15 @@ jobs:
             --config=osv-scanner.toml
             ./
 
+  # links.yml runs this on a schedule against the whole tree; this is the
+  # pull-request half, so a README that gains a dead link is caught in review
+  # rather than by a nightly nobody is watching. Non-blocking on purpose: an
+  # external host being down is not this repository's defect -- and a release
+  # PR's CHANGELOG links a tag that exists only after the merge.
   links:
-    name: External links (lychee)
+    name: External links (non-blocking)
     runs-on: ubuntu-latest
+    continue-on-error: true
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
