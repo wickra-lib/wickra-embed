@@ -7,6 +7,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **The repository has the family's shape.** SPDX-named licence copies under
+  `LICENSES/`, a `docs/` index, the detailed issue and pull-request templates,
+  Dependabot over the detached manifests, and a README with the quickstart
+  first, a full build section, a Testing section and the ecosystem map.
+  `rust-toolchain.toml` goes: CI pins its toolchains per job and installs the
+  bare-metal targets it needs; a local checkout uses its own. The golden
+  fixtures write warmup cells as `nan`, the family's convention.
+- **CI and code scanning.** Pull requests build against `main` only; every
+  action pin carries its patch-level version; the flake-resilience
+  environment is set once; actionlint lints the workflows; CodSpeed measures
+  the benches on every push; CodeQL has a config, a timeout and a C analysis
+  of the sample; new jobs run the host example, the three repository
+  consistency scripts (`scripts/check_*.py`) and osv-scanner against the
+  committed `osv-scanner.toml`; every job has a timeout.
+- **The release front.** `release.yml` refuses anything but a `v*` tag, checks
+  the tag against the declared version, builds every artefact before a gate
+  that requires the tagged commit's CI green, publishes `wickra-embed-core`
+  idempotently, attaches the `.crate`, a CycloneDX SBOM and the C ABI archives
+  (each with the header, the C++ wrapper and the licence texts) to a draft
+  release, attests provenance for every asset and publishes last.
+- **Crate metadata.** docs.rs builds with every feature; the licence texts sit
+  inside the published crate and beside the C ABI; the dev-only parity oracle
+  is `wickra-core` 1.0 (the released line; 0.9 was the last pre-release); the
+  benches report to CodSpeed through `codspeed-criterion-compat`.
+
+### Added
+
+- **A C++ layer over the C ABI**, `bindings/c/include/wickra_embed.hpp`:
+  one class per indicator with the handle's storage inline, a checked
+  constructor instead of a hand-sized buffer, and an `Update { value, status,
+  ready }` instead of an out-parameter. No heap, no exceptions, no RTTI. The C
+  sample gets a C++ twin under the same `ctest`, and the wrapper ships in
+  every C ABI release archive.
+- `wickra_embed_core::indicators::CATALOGUE` names the verified subset, with a
+  test pinning its count so an indicator cannot be added without its
+  parity test, C ABI handle and documentation line.
+
 ### Fixed
 
 - **The published crate carried a name the release could not upload.**
