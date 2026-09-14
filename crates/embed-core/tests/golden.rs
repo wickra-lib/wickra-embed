@@ -69,14 +69,16 @@ fn golden_dir() -> PathBuf {
 // --- CSV helpers ------------------------------------------------------------
 
 /// Format an `Option<f64>` cell: a value round-trips through its shortest
-/// representation; `None` (warmup) is an empty cell.
+/// representation; `None` (warmup) is the literal `nan`, the family's fixture
+/// convention (an empty line reads as a missing row, `nan` reads as a row that
+/// deliberately has no value).
 fn cell(v: Option<f64>) -> String {
-    v.map_or(String::new(), |x| format!("{x}"))
+    v.map_or_else(|| String::from("nan"), |x| format!("{x}"))
 }
 
 fn parse_cell(s: &str) -> Option<f64> {
     let s = s.trim();
-    if s.is_empty() {
+    if s == "nan" {
         None
     } else {
         Some(

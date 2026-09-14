@@ -3,4 +3,15 @@
 # assessed as not affecting wickra-embed; this mirrors the cargo-deny `ignore`
 # list in deny.toml at the OSV layer.
 #
-# Keep in lock-step with deny.toml's [advisories].ignore. No suppressions yet.
+# Keep in lock-step with deny.toml's [advisories].ignore.
+
+# bare-metal is deprecated (RUSTSEC-2026-0110, informational, no fix). It
+# reaches this repository only through cortex-m 0.7, which is the current
+# cortex-m line (0.7.9 still depends on it), and only in examples/embedded --
+# the QEMU-run bare-metal example. Nothing published carries it: embed-core is
+# no_std with no dependencies, and the C ABI links embed-core alone. The
+# advisory is a deprecation notice, not a defect; it clears when cortex-m
+# moves to critical-section, which is upstream's to ship.
+[[IgnoredVulns]]
+id = "RUSTSEC-2026-0110"
+reason = "bare-metal is deprecated, not defective; reached only through cortex-m 0.7 in the embedded example, never in a published crate. Clears when cortex-m drops it."

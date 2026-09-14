@@ -5,7 +5,12 @@ version = 2
 yanked = "deny"
 # Suppressed advisories (assessed as not affecting wickra-embed). Keep in
 # lock-step with osv-scanner.toml.
-ignore = []
+ignore = [
+    # bare-metal is deprecated (informational, no fix). Reached only through
+    # cortex-m 0.7 -- the current line -- in examples/embedded, never in a
+    # published crate. See osv-scanner.toml.
+    { id = "RUSTSEC-2026-0110", reason = "deprecated dependency of cortex-m 0.7 in the embedded example only; nothing published carries it" },
+]
 
 [licenses]
 version = 2

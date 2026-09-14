@@ -1,7 +1,7 @@
 version: 2
 updates:
   # Rust host workspace (root Cargo.toml + all member crates). There are no
-  # npm/pip/maven/nuget/gomod ecosystems here — wickra-embed ships no language
+  # npm/pip/maven/nuget/gomod ecosystems here -- wickra-embed ships no language
   # bindings beyond the C ABI, which has no package manifest of its own.
   - package-ecosystem: cargo
     directory: "/"
@@ -16,6 +16,51 @@ updates:
       prefix: "deps(cargo)"
     groups:
       cargo:
+        patterns: ["*"]
+
+  # The fuzz crate and the two examples are detached workspaces (their own
+  # Cargo.toml, outside the root members), so the root entry never sees them.
+  - package-ecosystem: cargo
+    directory: "/fuzz"
+    schedule:
+      interval: monthly
+      time: "06:00"
+      timezone: "Etc/UTC"
+    open-pull-requests-limit: 5
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: "deps(fuzz)"
+    groups:
+      fuzz:
+        patterns: ["*"]
+  - package-ecosystem: cargo
+    directory: "/examples/host"
+    schedule:
+      interval: monthly
+      time: "06:00"
+      timezone: "Etc/UTC"
+    open-pull-requests-limit: 5
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: "deps(example-host)"
+    groups:
+      example-host:
+        patterns: ["*"]
+  - package-ecosystem: cargo
+    directory: "/examples/embedded"
+    schedule:
+      interval: monthly
+      time: "06:00"
+      timezone: "Etc/UTC"
+    open-pull-requests-limit: 5
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: "deps(example-embedded)"
+    groups:
+      example-embedded:
         patterns: ["*"]
 
   # GitHub Actions — keeps the SHA-pinned actions current (Dependabot reads

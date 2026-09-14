@@ -12,6 +12,11 @@ categories = ["no-std::no-alloc", "embedded", "mathematics"]
 keywords = ["trading", "indicators", "no-std", "embedded", "technical-analysis"]
 readme = "README.md"
 
+# docs.rs builds with every feature on, so the std-only surface (the parity
+# helpers, the benches' entry points) is documented alongside the no_std core.
+[package.metadata.docs.rs]
+all-features = true
+
 [features]
 # `std` is on by default so `cargo test`/`cargo build` on a host are ready to go.
 # Bare-metal builds use `--no-default-features`, at which point the crate is

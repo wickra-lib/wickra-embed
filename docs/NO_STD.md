@@ -79,8 +79,8 @@ The core is built on every change against, and byte-identical across:
 | `thumbv6m-none-eabi`    | Cortex-M0 / M0+, no FPU, all soft-float |
 | `x86_64-*` (host)       | tests, doctests and benches (std) |
 
-The two bare-metal targets are pinned in `rust-toolchain.toml`, so `cargo build
---no-default-features --target …` and CI pick them up automatically. Because f64
+The two bare-metal targets are one `rustup target add thumbv7em-none-eabihf
+thumbv6m-none-eabi` away; CI installs them per job. Because f64
 `+ - * /` is IEEE-754 deterministic and the core uses the exact same operation
 order everywhere, the value on a soft-float Cortex-M0 is bit-for-bit the value on
 the host — see [PARITY.md](PARITY.md).

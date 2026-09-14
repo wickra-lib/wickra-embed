@@ -33,11 +33,15 @@ libm = "0.2"
 # C ABI header generation.
 cbindgen = "0.27"
 # Test/bench (host only).
-criterion = "0.8"
+# codspeed-criterion-compat is a drop-in for criterion: the benches keep their
+# criterion API and run as criterion locally, but under `cargo codspeed` they
+# report measurements instead of merely executing. Without the alias the
+# CodSpeed job runs the benchmarks and uploads nothing, which reads as a pass.
+criterion = { package = "codspeed-criterion-compat", version = "5.0.1" }
 proptest = "1"
 # Parity oracle — the std reference the no-alloc subset is checked byte-for-byte
 # against. Used ONLY under [dev-dependencies] in wickra-embed-core, never in the core path.
-wickra-core = "0.9"
+wickra-core = "1.0"
 
 [workspace.lints.rust]
 # The core and all crates are safe Rust; the C ABI hub re-allows unsafe locally
