@@ -57,6 +57,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   shape of every released sibling. The directory keeps its name; only the
   package and the `wickra_embed_core` path moved. The same audit ran across
   the family (xray paid for this with its first tag).
+- **The bare-metal C ABI archives build.** The release built
+  `libwickra_embed.a` for `thumbv6m` and `thumbv7em` with the default `std`
+  feature, which those targets do not have, and CI never built the C crate
+  for them. The release builds the two archives with `--no-default-features`
+  and CI proves that build on both targets. A staticlib must carry a panic
+  handler, so with `std` off the crate's own handler forwards to
+  `wickra_embed_panic()`, a C function the firmware defines and that must not
+  return; the generated header declares it and the C ABI docs give the
+  firmware build command that actually works (`cargo rustc … --crate-type
+  staticlib`; a bare-metal target cannot build the cdylib).
 
 ### Added
 

@@ -89,6 +89,12 @@ jobs:
       # no-alloc core is the allocation-leak guard — it fails if `std`/`alloc` is
       # pulled in.
       - run: cargo build -p wickra-embed-core --no-default-features --target ${{ matrix.target }}
+      # The archive the release ships for this target: the C ABI without std,
+      # its panic handler forwarding to the firmware's `wickra_embed_panic`.
+      # A staticlib demands a panic handler, so this is the build that proves
+      # the crate links for firmware.
+      - name: Build the no_std C ABI staticlib
+        run: cargo rustc -p wickra-embed-c --no-default-features --target ${{ matrix.target }} --crate-type staticlib
 
   alloc-leak-guard:
     name: No-alloc guard

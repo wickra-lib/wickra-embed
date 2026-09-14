@@ -49,6 +49,15 @@ typedef struct WickraSma WickraSma;
 extern "C" {
 #endif // __cplusplus
 
+// Defined by the firmware when it links the bare-metal staticlib (built
+// with `--no-default-features`): the library's panic handler forwards
+// here, and the function must not return (reset, halt, log). The core is
+// written never to panic, so this is the archive's link requirement, not
+// a path the indicators take. A host build (the default `std` feature)
+// never references it -- the declaration stays so the generated header
+// states the contract in every build.
+extern void wickra_embed_panic(void);
+
 // The library version as a static, NUL-terminated C string. Valid in `no_std`.
 const char *wickra_embed_version(void);
 

@@ -17,9 +17,10 @@ crate-type = ["cdylib", "staticlib"]
 
 [features]
 # `std` (default) forwards to the core's std path so the host cdylib/staticlib
-# links a panic handler and the unit tests run. A firmware build links the
-# staticlib with `--no-default-features`; the firmware then provides the panic
-# handler and the core takes its `libm` path (byte-identical to std).
+# links Rust's panic handler and the unit tests run. A firmware build links the
+# staticlib built with `--no-default-features`; the crate's own panic handler
+# then forwards to the firmware's `wickra_embed_panic()` and the core takes its
+# `libm` path (byte-identical to std).
 default = ["std"]
 std = ["wickra-embed-core/std"]
 
