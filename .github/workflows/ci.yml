@@ -22,6 +22,10 @@ env:
   CARGO_NET_GIT_FETCH_WITH_CLI: "true"
   PIP_RETRIES: "5"
   PIP_DEFAULT_TIMEOUT: "120"
+  # No npm here today; the family sets these everywhere so a job that grows a
+  # Node step inherits the same resilience.
+  npm_config_fetch_retries: "5"
+  npm_config_fetch_retry_maxtimeout: "120000"
   RUSTFLAGS: "-D warnings"
 
 # wickra-embed-core is `#![no_std]` and allocation-free. The host jobs (fmt, clippy,

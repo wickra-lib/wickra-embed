@@ -13,11 +13,24 @@ jobs:
   audit:
     name: metadata audit
     runs-on: ubuntu-latest
+    timeout-minutes: 15 # backstop against a wedged job, not a budget
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+      # setup-python does not retry its own download; a CDN blip fails the
+      # audit. One pause and one retry cover it.
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        id: setup_python
+        continue-on-error: true
+        with:
+          python-version: "3.12"
+      - name: Pause before retrying the toolchain download
+        if: steps.setup_python.outcome == 'failure'
+        run: sleep 30
+      - name: Retry the toolchain download
+        if: steps.setup_python.outcome == 'failure'
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.12"
       - name: Audit repo-metadata.toml drift
