@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
+    branches: [main]
 
 permissions:
   contents: read
@@ -13,7 +14,14 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  CARGO_TERM_COLOR: always
+  # Network-flake resilience: retry transient registry/DNS failures at the tool
+  # level so a blip fetching crates.io inside a build retries automatically
+  # instead of failing the job.
   CARGO_NET_RETRY: "10"
+  CARGO_NET_GIT_FETCH_WITH_CLI: "true"
+  PIP_RETRIES: "5"
+  PIP_DEFAULT_TIMEOUT: "120"
   RUSTFLAGS: "-D warnings"
 
 # wickra-embed-core is `#![no_std]` and allocation-free. The host jobs (fmt, clippy,
@@ -51,7 +59,7 @@ jobs:
         with:
           components: clippy
           targets: thumbv7em-none-eabihf
-      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
       - name: Clippy the host workspace (std)
         run: cargo clippy --workspace --all-targets --all-features -- -D warnings
       - name: Clippy the no_std core on a bare-metal target
@@ -72,7 +80,7 @@ jobs:
       - uses: ./.github/actions/setup-rust
         with:
           targets: ${{ matrix.target }}
-      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
       # No `--all-targets`: tests and doctests need std. A pure lib build of the
       # no-alloc core is the allocation-leak guard — it fails if `std`/`alloc` is
       # pulled in.
@@ -90,7 +98,7 @@ jobs:
         with:
           targets: thumbv6m-none-eabi
           components: llvm-tools-preview
-      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
       # A pure lib build succeeds even if the core `extern crate alloc`s, because
       # `alloc` is available for the target (only *linking a binary* without an
       # allocator would fail). So build the rlib and assert its objects reference
@@ -129,7 +137,7 @@ jobs:
         with:
           persist-credentials: false
       - uses: ./.github/actions/setup-rust
-      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
       - run: cargo test --workspace --all-features
 
   msrv:
@@ -144,7 +152,7 @@ jobs:
         with:
           toolchain: "1.86"
           targets: thumbv7em-none-eabihf
-      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
       - name: Check the host workspace
         run: cargo check --workspace --all-features
       - name: Check the no_std core on a bare-metal target
@@ -173,9 +181,9 @@ jobs:
       - uses: ./.github/actions/setup-rust
         with:
           components: llvm-tools-preview
-      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
       - name: Install cargo-llvm-cov
-        uses: taiki-e/install-action@3d7d7cd5ac7f994c1892ae0c06165095b9139094 # v2.85.1
+        uses: taiki-e/install-action@c3ec0de9ae7f1019cea21aa96aa0a895b9552063 # v2.87.9
         with:
           tool: cargo-llvm-cov
       # The moat lives in wickra-embed-core: the no-alloc arithmetic that must stay
@@ -210,11 +218,11 @@ jobs:
       - uses: ./.github/actions/setup-rust
         with:
           toolchain: nightly
-      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
         with:
           workspaces: fuzz
       - name: Install cargo-fuzz
-        uses: taiki-e/install-action@3d7d7cd5ac7f994c1892ae0c06165095b9139094 # v2.85.1
+        uses: taiki-e/install-action@c3ec0de9ae7f1019cea21aa96aa0a895b9552063 # v2.87.9
         with:
           tool: cargo-fuzz
       - name: Fuzz sma_update (30 s)
@@ -240,9 +248,9 @@ jobs:
         with:
           persist-credentials: false
       - uses: ./.github/actions/setup-rust
-      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
       - name: Install cbindgen
-        uses: taiki-e/install-action@3d7d7cd5ac7f994c1892ae0c06165095b9139094 # v2.85.1
+        uses: taiki-e/install-action@c3ec0de9ae7f1019cea21aa96aa0a895b9552063 # v2.87.9
         with:
           tool: cbindgen
       - name: Build the C ABI library (cdylib + staticlib)
@@ -275,7 +283,7 @@ jobs:
       - uses: ./.github/actions/setup-rust
         with:
           targets: thumbv7em-none-eabihf
-      - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
       # The example is its own workspace (so `cargo test --workspace` at the root
       # never pulls std onto the no_std core). Build from inside its directory so
       # its .cargo/config.toml applies — that file pins the thumbv7em target and
@@ -286,6 +294,73 @@ jobs:
         run: cargo build --release
         working-directory: examples/embedded
 
+  # The examples are what a reader copies. This runs the host example and
+  # holds it to what it prints; the C sample runs under ctest in the c-abi
+  # job and the Cortex-M one is cross-built in example-embedded.
+  examples:
+    name: Examples
+    runs-on: ubuntu-latest
+    timeout-minutes: 30 # backstop against a wedged job, not a budget
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup-rust
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          workspaces: examples/host
+      - name: Host example
+        shell: bash
+        run: |
+          out=$(cargo run -q --manifest-path examples/host/Cargo.toml)
+          echo "$out"
+          echo "$out" | grep -q 'sma20'
+          echo "$out" | grep -q 'ema20'
+
+  # The repository's own consistency checks: one version everywhere, licence
+  # texts inside every published package, package READMEs that link only to
+  # what travels with them.
+  repo-checks:
+    name: Repository checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10 # backstop against a wedged job, not a budget
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Versions agree across every manifest
+        run: python3 scripts/check_version_sync.py
+      - name: Published packages carry their licence texts
+        run: python3 scripts/check_license_copies.py
+      - name: Package READMEs link only to what travels with them
+        run: python3 scripts/check_readme_links.py
+
+  # osv-scanner.toml exists in this repository and nothing ran it. The file
+  # lists the advisories judged and accepted; this is what makes the judgement
+  # enforceable rather than documentary.
+  osv:
+    name: osv-scanner
+    runs-on: ubuntu-latest
+    timeout-minutes: 20 # backstop against a wedged job, not a budget
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # `--no-resolve`: everything pinned in a lockfile is scanned in full and
+      # transitively, because a lockfile needs no resolution; the detached
+      # example manifests carry a path dependency that cannot be resolved
+      # from a registry.
+      - name: osv-scanner
+        uses: google/osv-scanner-action/osv-scanner-action@6e4298ebc4db23e847df9b2e2de2939d6f066c67 # v2.5.1
+        with:
+          scan-args: |-
+            --recursive
+            --no-resolve
+            --config=osv-scanner.toml
+            ./
+
   links:
     name: External links (lychee)
     runs-on: ubuntu-latest
@@ -294,7 +369,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2
+      - uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
           args: --config lychee.toml --no-progress --root-dir "${{ github.workspace }}" "*.md" "crates/embed-core/README.md"
           fail: true

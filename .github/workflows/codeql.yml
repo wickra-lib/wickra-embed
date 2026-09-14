@@ -20,6 +20,7 @@ jobs:
   analyze:
     name: Analyze (${{ matrix.language }})
     runs-on: ubuntu-latest
+    timeout-minutes: 45 # backstop against a wedged job, not a budget
     permissions:
       security-events: write # upload CodeQL results to code-scanning
       packages: read
@@ -31,6 +32,10 @@ jobs:
         include:
           - language: rust
             build-mode: none
+          # The C sample and the header the C ABI ships; built with cmake
+          # against the host staticlib so CodeQL sees real compilations.
+          - language: c-cpp
+            build-mode: manual
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -38,12 +43,23 @@ jobs:
           persist-credentials: false
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4.37.3
+        uses: github/codeql-action/init@cdf488f595d80d6e07e03d4674febd5ab45fa938 # v4.37.9
         with:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
+          config-file: ./.github/codeql/codeql-config.yml
 
+      - name: Build the C sample for the C++ analysis
+        if: matrix.language == 'c-cpp'
+        uses: ./.github/actions/setup-rust
+      - name: Build the C sample for the C++ analysis (compile)
+        if: matrix.language == 'c-cpp'
+        shell: bash
+        run: |
+          cargo rustc -p wickra-embed-c --release --crate-type staticlib
+          cmake -S examples/c -B examples/c/build
+          cmake --build examples/c/build --config Release
       - name: Perform CodeQL analysis
-        uses: github/codeql-action/analyze@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4.37.3
+        uses: github/codeql-action/analyze@cdf488f595d80d6e07e03d4674febd5ab45fa938 # v4.37.9
         with:
           category: "/language:${{ matrix.language }}"

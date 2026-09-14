@@ -1,0 +1,17 @@
+name: wickra-embed CodeQL configuration
+
+# What CodeQL looks at, and what it deliberately does not.
+#
+# paths: the Rust workspace, the C ABI and the fuzz targets are the code that
+# ships or guards it; examples/c is the only C in the repository -- the sample
+# compiled against the C ABI's header -- and is what the c-cpp analysis sees.
+#
+# paths-ignore: the golden corpus is data; target/ is build output.
+paths-ignore:
+  - golden
+  - target
+paths:
+  - bindings
+  - crates
+  - fuzz
+  - examples/c
