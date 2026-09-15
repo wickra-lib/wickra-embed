@@ -60,3 +60,21 @@ if(WIN32)
 endif()
 add_test(NAME sma_signal_cpp COMMAND sma_signal_cpp)
 set_tests_properties(sma_signal_cpp PROPERTIES TIMEOUT 60)
+
+# The golden test: every catalogue indicator fed the golden inputs through the
+# C ABI, one bar at a time, compared with the expected columns bit for bit.
+# GOLDEN_DIR is the repository's golden/ directory, resolved at configure time.
+add_executable(golden_test golden_test.c)
+target_include_directories(golden_test PRIVATE "${WICKRA_EMBED_INCLUDE}")
+target_link_libraries(golden_test PRIVATE "${WICKRA_EMBED_LIB}")
+get_filename_component(WICKRA_EMBED_GOLDEN "${CMAKE_CURRENT_SOURCE_DIR}/../../golden" ABSOLUTE)
+target_compile_definitions(golden_test PRIVATE GOLDEN_DIR="${WICKRA_EMBED_GOLDEN}")
+if(WIN32)
+    add_custom_command(TARGET golden_test POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${WICKRA_EMBED_LIB_DIR}/wickra_embed.dll"
+            "$<TARGET_FILE_DIR:golden_test>"
+        VERBATIM)
+endif()
+add_test(NAME golden_test COMMAND golden_test)
+set_tests_properties(golden_test PROPERTIES TIMEOUT 60)

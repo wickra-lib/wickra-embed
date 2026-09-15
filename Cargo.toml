@@ -12,6 +12,10 @@
 [workspace]
 resolver = "2"
 members = ["crates/embed-core", "crates/embed-bench", "bindings/c"]
+# cargo-fuzz builds fuzz/ on its own, with sanitizer flags the workspace must
+# not inherit, and the examples are detached workspaces of their own; all are
+# excluded rather than members, as in every sibling.
+exclude = ["fuzz", "examples/embedded", "examples/host"]
 
 [workspace.package]
 version = "0.1.0"
