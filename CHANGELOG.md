@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **The fuzz job runs the family's pinned nightly.** A cross-repo scan lined the
+  24 wickra-lib repositories up; the only thing this one spelled differently was
+  a rolling `nightly` for cargo-fuzz where the family pins `nightly-2026-07-01`
+  by date, with the reason beside it. `CMAKE_C_STANDARD 11` stays: this is the
+  family's C-only repository and the value is its own.
+
 ## [0.1.0] - 2026-09-14
 
 ### Changed
