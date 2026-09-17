@@ -1,4 +1,4 @@
-# Golden vectors — the byte-parity moat
+# Golden fixtures
 
 These files are the reference for `wickra-embed`'s single guarantee: the value
 the `#![no_std]` `wickra-embed-core` computes on bare metal is **byte-for-byte
@@ -43,7 +43,7 @@ valid. Volume is `1000 + i` and the timestamp is `i`.
 Numbers are written in each value's shortest round-tripping decimal form, so
 reading a cell back reconstructs the exact `f64` bits.
 
-## Regenerating (bless)
+## Blessing
 
 The generator and the replay check both live in
 `crates/embed-core/tests/golden.rs`. To regenerate every file from the formula

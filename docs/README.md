@@ -13,3 +13,11 @@ the implementation and has to change in the same commit as it:
 - [`PARITY.md`](PARITY.md) — the byte-parity moat against `wickra-core`.
 - [`C_ABI.md`](C_ABI.md) — the no-alloc C ABI handle contract.
 - [`LATENCY.md`](LATENCY.md) — bounded per-update latency and how it is measured.
+
+## Editing the docs
+
+The documentation site is a separate git repository at
+`https://github.com/wickra-lib/wickra-embed-site`. Open a pull request there to
+propose changes; the site is built with VitePress and deploys to
+`embed.wickra.org`. The files in this directory change in the same commit as
+the code they describe.

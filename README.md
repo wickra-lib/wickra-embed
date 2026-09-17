@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://wickra.org"><img src="https://raw.githubusercontent.com/wickra-lib/.github/main/profile/wickra-banner.webp?v=514" alt="Wickra Embed — allocation-free, no_std streaming indicators for bare-metal and HFT, byte-for-byte identical to wickra-core" width="100%"></a>
+  <a href="https://wickra.org"><img src="https://raw.githubusercontent.com/wickra-lib/.github/main/profile/wickra-banner.webp?v=514-7" alt="Wickra Embed — allocation-free, no_std streaming indicators for bare-metal and HFT, byte-for-byte identical to wickra-core" width="100%"></a>
 </p>
 
 [![Built on Wickra](https://img.shields.io/badge/built%20on-wickra-3b82f6)](https://github.com/wickra-lib/wickra)
@@ -12,16 +12,20 @@
 [![OpenSSF Scorecard](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/scorecard.svg)](https://scorecard.dev/viewer/?uri=github.com/wickra-lib/wickra-embed)
 [![OpenSSF Best Practices](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/best-practices.svg)](https://www.bestpractices.dev)
 [![Build provenance](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/provenance.svg)](https://github.com/wickra-lib/wickra-embed/attestations)
-[![Docs](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/docs.svg)](https://wickra.org)
+[![Docs](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/docs.svg)](https://embed.wickra.org)
 [![no_std](https://img.shields.io/badge/no__std-yes-success.svg)](docs/NO_STD.md)
 [![byte-parity: wickra-core](https://img.shields.io/badge/byte--parity-wickra--core-success.svg)](docs/PARITY.md)
 [![targets: thumbv7em / thumbv6m](https://img.shields.io/badge/targets-thumbv7em%20%7C%20thumbv6m-informational.svg)](docs/NO_STD.md)
 
 ---
 
-# wickra-embed
-
 **Allocation-free, `#![no_std]` streaming indicators for bare-metal and HFT — byte-for-byte identical to [wickra-core](https://github.com/wickra-lib/wickra).**
+
+> **▶ Live demos:** the backtester compiled to WebAssembly, an equity curve building bar by bar — **[backtest-live.wickra.org](https://backtest-live.wickra.org)**;
+> one StrategySpec side by side in Python, Rust, JS and Go — **[playground.wickra.org](https://playground.wickra.org)**;
+> all 514 indicators of the core over a real Binance feed — **[live.wickra.org](https://live.wickra.org)**. Zero backend, all of them.
+
+**Part of the [Wickra ecosystem](#ecosystem):** the same indicator core and ten-language binding surface also power [wickra](https://github.com/wickra-lib/wickra), [wickra-backtest](https://github.com/wickra-lib/wickra-backtest), [wickra-pico](https://github.com/wickra-lib/wickra-pico) and 20 more — see [the full list](https://github.com/wickra-lib).
 
 `wickra-embed` runs the Wickra indicator math where there is no operating system
 and no heap: microcontrollers, FPGA soft-cores, HFT co-processors. Every update
@@ -48,11 +52,11 @@ for price in [101.0, 102.5, 101.8] {
 
 ## Status
 
-Early development (0.1.0, the first published release). The v0.1 line ships a
-verified no-alloc subset of the indicator catalogue (`Sma`, `Ema`, `Rsi`, `Atr`, `Roc`); the
-subset grows over time, each addition gated on a byte-parity test against
-`wickra-core`. The core API and the C ABI handle contract are stable and pinned
-by [golden tests](golden/).
+**0.1.0 — the current release.** The v0.1 line ships a verified no-alloc subset
+of the indicator catalogue (`Sma`, `Ema`, `Rsi`, `Atr`, `Roc`); the subset grows
+over time, each addition gated on a byte-parity test against `wickra-core`. The
+core API and the C ABI handle contract are stable and pinned by [golden
+tests](golden/).
 
 ## Documentation
 
@@ -260,15 +264,20 @@ See [SECURITY.md](SECURITY.md) and [THREAT_MODEL.md](THREAT_MODEL.md).
 
 ## License
 
-Dual-licensed under either of
+Licensed under either of
 
-- Apache License, Version 2.0 ([LICENSE-APACHE](LICENSE-APACHE))
-- MIT license ([LICENSE-MIT](LICENSE-MIT))
+- Apache License, Version 2.0 ([LICENSE-APACHE](LICENSE-APACHE) or
+  <http://www.apache.org/licenses/LICENSE-2.0>)
+- MIT license ([LICENSE-MIT](LICENSE-MIT) or <http://opensource.org/licenses/MIT>)
 
-at your option. Unless you explicitly state otherwise, any contribution
-intentionally submitted for inclusion in this work, as defined in the Apache-2.0
-license, shall be dual-licensed as above, without any additional terms or
-conditions.
+at your option. Use it, fork it, modify it, redistribute it — commercially or
+not — file issues, send pull requests; all welcome.
+
+### Contribution
+
+Unless you explicitly state otherwise, any contribution intentionally submitted
+for inclusion in the work by you, as defined in the Apache-2.0 license, shall be
+dual licensed as above, without any additional terms or conditions.
 
 ## Disclaimer
 

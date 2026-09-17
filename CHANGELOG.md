@@ -9,6 +9,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Every README follows wickra's shape.** A cross-repo scan compared the
+  heading skeleton of each README against wickra's and this repository's
+  differed throughout. The root README opens as wickra's does (banner, badges,
+  the one-liner, the ecosystem line, no separate H1), its Status names the
+  current release, the License section carries wickra's wording and its
+  `### Contribution` clause, and the shared sections run in wickra's order. The
+  C ABI README is `Install`, `Quick start`, `Benchmark`, `Documentation`,
+  `Security`, `Disclaimer`, `License` with the handle contract, return codes
+  and byte-parity notes as subsections; `examples/README.md` lists the Rust and
+  C examples the way wickra's does, `examples/c/README.md` carries the build
+  matrix, and `fuzz/README.md` and the `## Editing the docs` section of
+  `docs/README.md` exist as they do in wickra.
+
+### Changed
+
 - **The fuzz job runs the family's pinned nightly.** A cross-repo scan lined the
   24 wickra-lib repositories up; the only thing this one spelled differently was
   a rolling `nightly` for cargo-fuzz where the family pins `nightly-2026-07-01`
