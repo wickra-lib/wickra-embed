@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://wickra.org"><img src="https://raw.githubusercontent.com/wickra-lib/.github/main/profile/wickra-banner.webp?v=514" alt="Wickra Embed — allocation-free, no_std streaming indicators for bare-metal and HFT, byte-for-byte identical to wickra-core" width="100%"></a>
+  <a href="https://wickra.org"><img src="https://raw.githubusercontent.com/wickra-lib/.github/main/profile/wickra-banner.webp?v=514-7" alt="Wickra Embed — allocation-free, no_std streaming indicators for bare-metal and HFT, byte-for-byte identical to wickra-core" width="100%"></a>
 </p>
 
 [![CI](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/ci.svg)](https://github.com/wickra-lib/wickra-embed/actions/workflows/ci.yml)
