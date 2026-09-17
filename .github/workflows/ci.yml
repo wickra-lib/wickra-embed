@@ -227,7 +227,10 @@ jobs:
           persist-credentials: false
       - uses: ./.github/actions/setup-rust
         with:
-          toolchain: nightly
+          # The family's fuzz nightly, pinned by date: a rolling `nightly` regressed
+          # with a codegen ICE unrelated to this code. Move the date deliberately,
+          # in every repo at once.
+          toolchain: nightly-2026-07-01
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
         with:
           workspaces: fuzz
@@ -236,13 +239,13 @@ jobs:
         with:
           tool: cargo-fuzz
       - name: Fuzz sma_update (30 s)
-        run: cargo +nightly fuzz run --target x86_64-unknown-linux-gnu sma_update -- -max_total_time=30
+        run: cargo +nightly-2026-07-01 fuzz run --target x86_64-unknown-linux-gnu sma_update -- -max_total_time=30
         working-directory: fuzz
       - name: Fuzz ema_update (30 s)
-        run: cargo +nightly fuzz run --target x86_64-unknown-linux-gnu ema_update -- -max_total_time=30
+        run: cargo +nightly-2026-07-01 fuzz run --target x86_64-unknown-linux-gnu ema_update -- -max_total_time=30
         working-directory: fuzz
       - name: Fuzz ohlc_update (30 s)
-        run: cargo +nightly fuzz run --target x86_64-unknown-linux-gnu ohlc_update -- -max_total_time=30
+        run: cargo +nightly-2026-07-01 fuzz run --target x86_64-unknown-linux-gnu ohlc_update -- -max_total_time=30
         working-directory: fuzz
 
   c-abi:
