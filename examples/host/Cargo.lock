@@ -10,14 +10,14 @@ checksum = "b6d2cec3eae94f9f509c767b45932f1ada8350c4bdb85af2fcab4a3c14807981"
 
 [[package]]
 name = "wickra-embed-core"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "libm",
 ]
 
 [[package]]
 name = "wickra-embed-host-example"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "wickra-embed-core",
 ]

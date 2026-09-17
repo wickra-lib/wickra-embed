@@ -52,7 +52,7 @@ for price in [101.0, 102.5, 101.8] {
 
 ## Status
 
-**0.1.0 — the current release.** The v0.1 line ships a verified no-alloc subset
+**0.1.1 — the current release.** The v0.1 line ships a verified no-alloc subset
 of the indicator catalogue (`Sma`, `Ema`, `Rsi`, `Atr`, `Roc`); the subset grows
 over time, each addition gated on a byte-parity test against `wickra-core`. The
 core API and the C ABI handle contract are stable and pinned by [golden

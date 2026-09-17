@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-09-18
+
 ### Changed
 
 - **Every README follows wickra's shape.** A cross-repo scan compared the
@@ -126,5 +128,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (issue/PR templates, `setup-rust`, `sync-metadata.py`, dependabot), and dual
   `MIT OR Apache-2.0` licensing.
 
-[Unreleased]: https://github.com/wickra-lib/wickra-embed/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/wickra-lib/wickra-embed/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/wickra-lib/wickra-embed/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/wickra-lib/wickra-embed/releases/tag/v0.1.0
