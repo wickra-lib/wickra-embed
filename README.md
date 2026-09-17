@@ -12,14 +12,12 @@
 [![OpenSSF Scorecard](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/scorecard.svg)](https://scorecard.dev/viewer/?uri=github.com/wickra-lib/wickra-embed)
 [![OpenSSF Best Practices](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/best-practices.svg)](https://www.bestpractices.dev)
 [![Build provenance](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/provenance.svg)](https://github.com/wickra-lib/wickra-embed/attestations)
-[![Docs](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/docs.svg)](https://wickra.org)
+[![Docs](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/docs.svg)](https://embed.wickra.org)
 [![no_std](https://img.shields.io/badge/no__std-yes-success.svg)](docs/NO_STD.md)
 [![byte-parity: wickra-core](https://img.shields.io/badge/byte--parity-wickra--core-success.svg)](docs/PARITY.md)
 [![targets: thumbv7em / thumbv6m](https://img.shields.io/badge/targets-thumbv7em%20%7C%20thumbv6m-informational.svg)](docs/NO_STD.md)
 
 ---
-
-# wickra-embed
 
 **Allocation-free, `#![no_std]` streaming indicators for bare-metal and HFT — byte-for-byte identical to [wickra-core](https://github.com/wickra-lib/wickra).**
 
@@ -48,11 +46,11 @@ for price in [101.0, 102.5, 101.8] {
 
 ## Status
 
-Early development (0.1.0, the first published release). The v0.1 line ships a
-verified no-alloc subset of the indicator catalogue (`Sma`, `Ema`, `Rsi`, `Atr`, `Roc`); the
-subset grows over time, each addition gated on a byte-parity test against
-`wickra-core`. The core API and the C ABI handle contract are stable and pinned
-by [golden tests](golden/).
+**0.1.0 — the current release.** The v0.1 line ships a verified no-alloc subset
+of the indicator catalogue (`Sma`, `Ema`, `Rsi`, `Atr`, `Roc`); the subset grows
+over time, each addition gated on a byte-parity test against `wickra-core`. The
+core API and the C ABI handle contract are stable and pinned by [golden
+tests](golden/).
 
 ## Documentation
 
@@ -260,15 +258,20 @@ See [SECURITY.md](SECURITY.md) and [THREAT_MODEL.md](THREAT_MODEL.md).
 
 ## License
 
-Dual-licensed under either of
+Licensed under either of
 
-- Apache License, Version 2.0 ([LICENSE-APACHE](LICENSE-APACHE))
-- MIT license ([LICENSE-MIT](LICENSE-MIT))
+- Apache License, Version 2.0 ([LICENSE-APACHE](LICENSE-APACHE) or
+  <http://www.apache.org/licenses/LICENSE-2.0>)
+- MIT license ([LICENSE-MIT](LICENSE-MIT) or <http://opensource.org/licenses/MIT>)
 
-at your option. Unless you explicitly state otherwise, any contribution
-intentionally submitted for inclusion in this work, as defined in the Apache-2.0
-license, shall be dual-licensed as above, without any additional terms or
-conditions.
+at your option. Use it, fork it, modify it, redistribute it — commercially or
+not — file issues, send pull requests; all welcome.
+
+### Contribution
+
+Unless you explicitly state otherwise, any contribution intentionally submitted
+for inclusion in the work by you, as defined in the Apache-2.0 license, shall be
+dual licensed as above, without any additional terms or conditions.
 
 ## Disclaimer
 
