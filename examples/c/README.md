@@ -29,7 +29,7 @@ A static library (`libwickra_embed.a` / `wickra_embed.lib`) is emitted alongside
 
 ## Build and run the examples
 
-With CMake, as the CI C ABI job does:
+### With CMake (portable, used by CI)
 
 ```bash
 cmake -S examples/c -B examples/c/build
@@ -41,6 +41,20 @@ On Windows the build copies `wickra_embed.dll` next to the executable so the
 loader finds it; on Linux/macOS the `.so`/`.dylib` is resolved via the embedded
 library path. Override `WICKRA_EMBED_LIB_DIR` for an out-of-tree library
 location.
+
+### Directly with a compiler
+
+```sh
+# Linux / macOS
+cc examples/c/sma_signal.c -I bindings/c/include -L target/release -lwickra_embed -lm -o sma_signal
+LD_LIBRARY_PATH=target/release ./sma_signal        # macOS: DYLD_LIBRARY_PATH
+
+# Windows (MinGW gcc, linking the DLL directly)
+gcc examples/c/sma_signal.c -I bindings/c/include target/release/wickra_embed.dll -lm -o sma_signal.exe
+```
+
+The C++ example is the same command with `c++`/`g++` and `sma_signal.cpp`; the
+header-only wrapper needs no extra library.
 
 ## The examples
 
