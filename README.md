@@ -21,6 +21,12 @@
 
 **Allocation-free, `#![no_std]` streaming indicators for bare-metal and HFT — byte-for-byte identical to [wickra-core](https://github.com/wickra-lib/wickra).**
 
+> **▶ Live demos:** the backtester compiled to WebAssembly, an equity curve building bar by bar — **[backtest-live.wickra.org](https://backtest-live.wickra.org)**;
+> one StrategySpec side by side in Python, Rust, JS and Go — **[playground.wickra.org](https://playground.wickra.org)**;
+> all 514 indicators of the core over a real Binance feed — **[live.wickra.org](https://live.wickra.org)**. Zero backend, all of them.
+
+**Part of the [Wickra ecosystem](#ecosystem):** the same indicator core and ten-language binding surface also power [wickra](https://github.com/wickra-lib/wickra), [wickra-backtest](https://github.com/wickra-lib/wickra-backtest), [wickra-pico](https://github.com/wickra-lib/wickra-pico) and 20 more — see [the full list](https://github.com/wickra-lib).
+
 `wickra-embed` runs the Wickra indicator math where there is no operating system
 and no heap: microcontrollers, FPGA soft-cores, HFT co-processors. Every update
 is O(1) with a bounded worst-case latency, uses fixed-capacity buffers (no
