@@ -3,7 +3,7 @@
 # workspace (never a root member) so `--all-targets` never forces std onto it.
 [package]
 name = "wickra-embed-example"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 publish = false
 license = "MIT OR Apache-2.0"

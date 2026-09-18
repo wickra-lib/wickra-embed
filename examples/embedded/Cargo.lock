@@ -203,14 +203,14 @@ dependencies = [
 
 [[package]]
 name = "wickra-embed-core"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "libm",
 ]
 
 [[package]]
 name = "wickra-embed-example"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "cortex-m",
  "cortex-m-rt",

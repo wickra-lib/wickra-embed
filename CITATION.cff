@@ -6,8 +6,8 @@ abstract: >-
   hardware: fixed-latency, O(1) updates with no heap, cross-compiled to
   Cortex-M targets and byte-for-byte identical to the std wickra-core.
 type: software
-version: "0.1.0"
-date-released: "2026-09-14"
+version: "0.1.1"
+date-released: "2026-09-18"
 authors:
   - alias: kingchenc
     website: "https://wickra.org"

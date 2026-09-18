@@ -3,7 +3,7 @@
 # workspace so `cargo test --workspace` at the repo root never pulls it in.
 [package]
 name = "wickra-embed-host-example"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 publish = false
 license = "MIT OR Apache-2.0"
