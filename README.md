@@ -2,8 +2,8 @@
   <a href="https://wickra.org"><img src="https://raw.githubusercontent.com/wickra-lib/.github/main/profile/wickra-banner.webp?v=514-7" alt="Wickra Embed — allocation-free, no_std streaming indicators for bare-metal and HFT, byte-for-byte identical to wickra-core" width="100%"></a>
 </p>
 
-[![Built on Wickra](https://img.shields.io/badge/built%20on-wickra-3b82f6)](https://github.com/wickra-lib/wickra)
-[![Status](https://img.shields.io/badge/status-pre--release-orange)](https://github.com/wickra-lib/wickra-embed)
+[![Built on Wickra](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/built-on.svg)](https://github.com/wickra-lib/wickra)
+[![Status](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/status.svg)](https://github.com/wickra-lib/wickra-embed)
 [![CI](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/ci.svg)](https://github.com/wickra-lib/wickra-embed/actions/workflows/ci.yml)
 [![CodeQL](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/codeql.svg)](https://github.com/wickra-lib/wickra-embed/actions/workflows/codeql.yml)
 [![GitHub release](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/release.svg)](https://github.com/wickra-lib/wickra-embed/releases/latest)
@@ -13,9 +13,9 @@
 [![OpenSSF Best Practices](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/best-practices.svg)](https://www.bestpractices.dev)
 [![Build provenance](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/provenance.svg)](https://github.com/wickra-lib/wickra-embed/attestations)
 [![Docs](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/docs.svg)](https://embed.wickra.org)
-[![no_std](https://img.shields.io/badge/no__std-yes-success.svg)](docs/NO_STD.md)
-[![byte-parity: wickra-core](https://img.shields.io/badge/byte--parity-wickra--core-success.svg)](docs/PARITY.md)
-[![targets: thumbv7em / thumbv6m](https://img.shields.io/badge/targets-thumbv7em%20%7C%20thumbv6m-informational.svg)](docs/NO_STD.md)
+[![no_std](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/no-std.svg)](docs/NO_STD.md)
+[![byte-parity: wickra-core](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/byte-parity.svg)](docs/PARITY.md)
+[![targets: thumbv7em / thumbv6m](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/targets.svg)](docs/NO_STD.md)
 
 ---
 
