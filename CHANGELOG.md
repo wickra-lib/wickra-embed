@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-09-23
+
+A maintenance release: the embedded core and its C binding are unchanged. It
+publishes the refreshed dependency tree and toolchain pins.
+
+### Changed
+
+- **Built on wickra-core 1.0.5.** The lock takes the indicator core's latest
+  release; the `1.0` requirement already admitted it.
+- **Third-party dependencies refreshed.** `Cargo.lock` takes 41 crates to their
+  newest semver-compatible versions, run across the family in one pass so every
+  repository resolves the same day's versions. No manifest changed.
+- **The README's static badges are served by the organization** rather than
+  hot-linked from shields.io, so they no longer break when shields is down.
+
 ## [0.1.1] - 2026-09-18
 
 ### Changed
@@ -128,6 +143,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (issue/PR templates, `setup-rust`, `sync-metadata.py`, dependabot), and dual
   `MIT OR Apache-2.0` licensing.
 
-[Unreleased]: https://github.com/wickra-lib/wickra-embed/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/wickra-lib/wickra-embed/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/wickra-lib/wickra-embed/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/wickra-lib/wickra-embed/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/wickra-lib/wickra-embed/releases/tag/v0.1.0
