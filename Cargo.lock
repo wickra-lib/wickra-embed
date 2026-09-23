@@ -267,7 +267,7 @@ checksum = "252afb9ae5eaa683babdc6a068b3f5726eb19e05070c731f9b2a23a7c3e8ed34"
 
 [[package]]
 name = "embed-bench"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "codspeed-criterion-compat",
  "wickra-embed-core",
@@ -853,9 +853,9 @@ dependencies = [
 
 [[package]]
 name = "wasip2"
-version = "1.0.4+wasi-0.2.12"
+version = "1.0.1+wasi-0.2.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b67efb37e106e55ce722a510d6b5f9c17f083e5fc79afc2badeb12cc313d9487"
+checksum = "0562428422c63773dad2c345a1882263bbf4d65cf3f42e90921f787ef5ad58e7"
 dependencies = [
  "wit-bindgen",
 ]
@@ -917,9 +917,9 @@ dependencies = [
 
 [[package]]
 name = "wickra-core"
-version = "1.0.5"
+version = "1.0.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "911f903b829bbaf0f5e428e2126f512f3e8e04d086f72506cc6093a11182c5ef"
+checksum = "71aaaaa211d2784cad85409213fe5d64b303dd5711c91cc861ac6962ae8fea3e"
 dependencies = [
  "rayon",
  "thiserror",
@@ -927,14 +927,14 @@ dependencies = [
 
 [[package]]
 name = "wickra-embed-c"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "wickra-embed-core",
 ]
 
 [[package]]
 name = "wickra-embed-core"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "libm",
  "proptest",
@@ -967,9 +967,9 @@ dependencies = [
 
 [[package]]
 name = "wit-bindgen"
-version = "0.57.1"
+version = "0.46.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1ebf944e87a7c253233ad6766e082e3cd714b5d03812acc24c318f549614536e"
+checksum = "f17a85883d4e6d00e8a97c586de764dabcc06133f7f1d55dce5cdc070ad7fe59"
 
 [[package]]
 name = "zerocopy"

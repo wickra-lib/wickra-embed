@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-09-23
+
+A maintenance release: the embedded core and its C binding are unchanged. It
+publishes the refreshed dependency tree and toolchain pins.
+
+### Changed
+
+- **Built on wickra-core 1.0.6.** The lock takes the indicator core's latest
+  release; the `1.0` requirement already admitted it.
+- **Third-party dependencies refreshed.** `Cargo.lock` takes 46 crates to their
+  newest versions compatible with the Rust floor (the lock now resolves
+  MSRV-aware, see below), run across the family in one pass so every repository
+  resolves the same day's versions. No manifest changed.
+- **The lockfile resolves for the Rust floor.** `.cargo/config.toml` sets
+  `incompatible-rust-versions = "fallback"`, so `cargo update` takes the newest
+  version the workspace's `rust-version` can build rather than the newest
+  release -- the setting compile, copilot and shazam already carried, now
+  family-wide. Without it, a routine refresh elsewhere in the family raised the
+  icu crates to 2.3.0, which declares Rust 1.88, above a 1.86 floor. Re-resolved
+  under it, the lock steps back to the newest versions the floor can build for
+  `wasip2`, `wit-bindgen`.
+- **The README's static badges are served by the organization** rather than
+  hot-linked from shields.io, so they no longer break when shields is down.
+
 ## [0.1.1] - 2026-09-18
 
 ### Changed
@@ -128,6 +152,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (issue/PR templates, `setup-rust`, `sync-metadata.py`, dependabot), and dual
   `MIT OR Apache-2.0` licensing.
 
-[Unreleased]: https://github.com/wickra-lib/wickra-embed/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/wickra-lib/wickra-embed/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/wickra-lib/wickra-embed/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/wickra-lib/wickra-embed/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/wickra-lib/wickra-embed/releases/tag/v0.1.0
