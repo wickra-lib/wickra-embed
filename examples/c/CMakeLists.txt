@@ -13,6 +13,10 @@ project(wickra_embed_examples C CXX)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
+# C++11, not the C++17 the family's other C++ examples use: wickra_embed.hpp
+# is written for bare-metal toolchains (no heap, no exceptions, no RTTI), and
+# building sma_signal.cpp as C++11 is what holds that floor -- a later feature
+# slipping into the header fails here instead of on a microcontroller's compiler.
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
