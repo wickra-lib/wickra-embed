@@ -917,9 +917,9 @@ dependencies = [
 
 [[package]]
 name = "wickra-core"
-version = "1.0.7"
+version = "2.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9de44a7d1a465021f41c4a182463493a4c1053efbbfdde8fa6a3fcbd6dcc4d62"
+checksum = "b62035347edf307f399651a8b5b28b3883fdc17b891605fd92d95cc4b2e1f749"
 dependencies = [
  "rayon",
  "thiserror",
@@ -944,9 +944,9 @@ dependencies = [
 
 [[package]]
 name = "wickra-simd"
-version = "1.0.7"
+version = "2.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "80fc26f4f971339fd785bb1445229f90699c9b954c16202f3a63ee9b9e2f2114"
+checksum = "dd924c51e4871af15651e173fd4d88269455e0b3e9524aa3f24ed72a16bf40e6"
 
 [[package]]
 name = "winapi-util"
