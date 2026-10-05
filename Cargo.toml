@@ -45,7 +45,7 @@ criterion = { package = "codspeed-criterion-compat", version = "5.0.1" }
 proptest = "1"
 # Parity oracle — the std reference the no-alloc subset is checked byte-for-byte
 # against. Used ONLY under [dev-dependencies] in wickra-embed-core, never in the core path.
-wickra-core = "1.0"
+wickra-core = "2.0"
 
 [workspace.lints.rust]
 # The core and all crates are safe Rust; the C ABI hub re-allows unsafe locally
