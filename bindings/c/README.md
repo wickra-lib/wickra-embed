@@ -3,7 +3,6 @@
 </p>
 
 [![CI](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/ci.svg)](https://github.com/wickra-lib/wickra-embed/actions/workflows/ci.yml)
-[![codecov](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/codecov.svg)](https://codecov.io/gh/wickra-lib/wickra-embed)
 [![GitHub release](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/release.svg)](https://github.com/wickra-lib/wickra-embed/releases/latest)
 [![License: MIT OR Apache-2.0](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/license.svg)](https://github.com/wickra-lib/wickra-embed#license)
 
