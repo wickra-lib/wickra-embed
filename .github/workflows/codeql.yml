@@ -19,7 +19,7 @@ permissions:
 jobs:
   analyze:
     name: Analyze (${{ matrix.language }})
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     timeout-minutes: 45 # backstop against a wedged job, not a budget
     permissions:
       security-events: write # upload CodeQL results to code-scanning

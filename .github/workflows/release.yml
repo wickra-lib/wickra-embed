@@ -31,7 +31,7 @@ env:
 jobs:
   guard:
     name: Refuse to publish from anything but a tag
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
     steps:
       - name: Check the ref
@@ -53,7 +53,7 @@ jobs:
   # 0.1.0 tree would publish 0.1.0 under a release called v0.2.0.
   version:
     name: The tag names the declared version
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
     needs: guard
     steps:
@@ -75,7 +75,7 @@ jobs:
   staticlibs:
     name: C ABI staticlib (${{ matrix.target }})
     needs: [guard, version]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     timeout-minutes: 30 # backstop against a wedged job, not a budget
     strategy:
       fail-fast: false
@@ -132,7 +132,7 @@ jobs:
   gate:
     name: Nothing publishes before this
     needs: [guard, version, staticlibs]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     permissions:
       contents: read
@@ -189,7 +189,7 @@ jobs:
   cargo-publish:
     name: Publish wickra-embed-core to crates.io
     timeout-minutes: 45
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     needs: [gate, guard]
     environment: release
     steps:
@@ -243,7 +243,7 @@ jobs:
     name: Attach assets to the draft GitHub Release
     timeout-minutes: 45
     needs: [cargo-publish, staticlibs]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       contents: write
     outputs:
@@ -313,7 +313,7 @@ jobs:
     name: Attest build provenance
     timeout-minutes: 45
     needs: [cargo-publish, staticlibs, github-release]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       id-token: write
       attestations: write
@@ -362,7 +362,7 @@ jobs:
     timeout-minutes: 45
     needs: [github-release, attestations]
     if: always() && needs.github-release.result == 'success'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       contents: write
     steps:
