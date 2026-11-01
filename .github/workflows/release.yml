@@ -94,7 +94,7 @@ jobs:
       - uses: ./.github/actions/setup-rust
         with:
           targets: ${{ matrix.target }}
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
       # The bare-metal targets cannot build a cdylib (no dynamic linker), so ask
       # rustc for the staticlib crate-type only. That yields a uniform
       # `libwickra_embed.a` for every triple, which firmware links directly.
@@ -120,7 +120,7 @@ jobs:
           cp LICENSE-MIT LICENSE-APACHE stage/
           tar -C stage -czf "dist/wickra-embed-c-${REF_NAME}-${TARGET}.tar.gz" .
       - name: Upload staticlib artifact
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: staticlib-${{ matrix.target }}
           path: dist/*.tar.gz
@@ -197,7 +197,7 @@ jobs:
         with:
           persist-credentials: false
       - uses: ./.github/actions/setup-rust
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
       # Only the no_std core is a library crate for downstream Rust firmware. The
       # C ABI crate (wickra-embed-c) is a staticlib artefact, not a registry
       # dependency, so it ships as a release asset instead.
@@ -219,12 +219,12 @@ jobs:
       - name: Build the .crate file for release attachment
         run: cargo package -p wickra-embed-core
       - name: Upload the .crate file
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: crate-files
           path: target/package/*.crate
       - name: Install cargo-cyclonedx
-        uses: taiki-e/install-action@9983c65e42da123ff25d1f78505eb6de315aa172 # v2.87.20
+        uses: taiki-e/install-action@1e29709c0ec63babbe8f266397a465f29a825f91 # v2.87.31
         with:
           tool: cargo-cyclonedx
       - name: Generate the CycloneDX SBOM
@@ -234,7 +234,7 @@ jobs:
           cp crates/embed-core/wickra-embed-core.cdx.json sboms/
           ls -lh sboms/
       - name: Upload the SBOM
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: sboms
           path: sboms/*.cdx.json
@@ -274,7 +274,7 @@ jobs:
           echo "version=${tag#v}" >> "$GITHUB_OUTPUT"
           echo "::notice::attaching assets to release $tag"
       - name: Download all build artifacts
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           path: artifacts
       - name: Stage release assets
@@ -320,12 +320,12 @@ jobs:
       contents: write
     steps:
       - name: Download the crate file
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: crate-files
           path: artifacts/crates
       - name: Download the C ABI archives
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           pattern: staticlib-*
           path: artifacts/c-abi
