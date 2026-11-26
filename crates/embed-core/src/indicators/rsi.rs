@@ -67,13 +67,15 @@ impl<const N: usize> Rsi<N> {
     }
 
     /// RSI from smoothed average gain/loss, collapsed to a single division.
-    /// `100·ag/(ag+al)`, with the no-movement case (`ag+al == 0`) neutral at 50.
+    /// `100·(ag/(ag+al))`, with the no-movement case (`ag+al == 0`) neutral at
+    /// 50. Dividing first keeps saturation exact (`ag/ag == 1`, so exactly 100)
+    /// and matches wickra-core 2.2 bit for bit.
     fn rsi_from_avgs(avg_gain: f64, avg_loss: f64) -> f64 {
         let denom = avg_gain + avg_loss;
         if denom == 0.0 {
             50.0
         } else {
-            100.0 * avg_gain / denom
+            100.0 * (avg_gain / denom)
         }
     }
 }
