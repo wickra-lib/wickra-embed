@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.4] - 2026-11-26
+
+A maintenance release: it follows wickra-core 2.2.0, builds on Rust 1.100 and
+Go 1.27, and ships the refreshed dependency tree.
+
+### Changed
+
+- **Built on wickra-core 2.2.0** (from 2.1.0). The lock takes the indicator
+  core's release; the caret requirement already admitted it. Saturated `Rsi` and
+  `StochRsi` values are now exactly 100 (and 0), and `TtmSqueeze` detrends its
+  momentum per bar, as the reference does, with a warmup of `2 * period - 1`;
+  anything here that runs those indicators can report different values with it.
+- **Third-party dependencies refreshed.** `Cargo.lock` takes 43 crates at their
+  latest releases within the declared ranges. No manifest changed.
+- **Dependabot's monthly updates** (GitHub Actions): 2 pull requests, each
+  checked against the versions the rest of the family holds.
+
+### Security
+
+- **rustix 1.1.6** in the lockfile, for RUSTSEC-2026-0486: xattr functions
+  marked unwritten bytes as initialised when given a zero-length buffer.
+
 ## [0.1.3] - 2026-10-28
 
 A maintenance release: the embedded core and its C binding are unchanged.
@@ -170,7 +192,8 @@ publishes the refreshed dependency tree and toolchain pins.
   (issue/PR templates, `setup-rust`, `sync-metadata.py`, dependabot), and dual
   `MIT OR Apache-2.0` licensing.
 
-[Unreleased]: https://github.com/wickra-lib/wickra-embed/compare/v0.1.3...HEAD
+[Unreleased]: https://github.com/wickra-lib/wickra-embed/compare/v0.1.4...HEAD
+[0.1.4]: https://github.com/wickra-lib/wickra-embed/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/wickra-lib/wickra-embed/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/wickra-lib/wickra-embed/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/wickra-lib/wickra-embed/compare/v0.1.0...v0.1.1

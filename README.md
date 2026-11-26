@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://wickra.org"><img src="https://raw.githubusercontent.com/wickra-lib/.github/main/profile/wickra-banner.svg?v=514-8" alt="Wickra Embed — allocation-free, no_std streaming indicators for bare-metal and HFT, byte-for-byte identical to wickra-core" width="100%"></a>
+  <a href="https://wickra.org"><img src="https://raw.githubusercontent.com/wickra-lib/.github/main/profile/wickra-banner.svg?v=515-8" alt="Wickra Embed — allocation-free, no_std streaming indicators for bare-metal and HFT, byte-for-byte identical to wickra-core" width="100%"></a>
 </p>
 
 [![Built on Wickra](https://raw.githubusercontent.com/wickra-lib/.github/main/profile/badges/wickra-embed/built-on.svg)](https://github.com/wickra-lib/wickra)
@@ -23,7 +23,7 @@
 
 > **▶ Live demos:** the backtester compiled to WebAssembly, an equity curve building bar by bar — **[backtest-live.wickra.org](https://backtest-live.wickra.org)**;
 > one StrategySpec side by side in Python, Rust, JS and Go — **[playground.wickra.org](https://playground.wickra.org)**;
-> all 514 indicators of the core over a real Binance feed — **[live.wickra.org](https://live.wickra.org)**. Zero backend, all of them.
+> all 515 indicators of the core over a real Binance feed — **[live.wickra.org](https://live.wickra.org)**. Zero backend, all of them.
 
 **Part of the [Wickra ecosystem](#ecosystem):** the same indicator core and ten-language binding surface also power [wickra](https://github.com/wickra-lib/wickra), [wickra-backtest](https://github.com/wickra-lib/wickra-backtest), [wickra-pico](https://github.com/wickra-lib/wickra-pico) and 20 more — see [the full list](https://github.com/wickra-lib).
 
@@ -52,7 +52,7 @@ for price in [101.0, 102.5, 101.8] {
 
 ## Status
 
-**0.1.3 — the current release.** The v0.1 line ships a verified no-alloc subset
+**0.1.4 — the current release.** The v0.1 line ships a verified no-alloc subset
 of the indicator catalogue (`Sma`, `Ema`, `Rsi`, `Atr`, `Roc`); the subset grows
 over time, each addition gated on a byte-parity test against `wickra-core`. The
 core API and the C ABI handle contract are stable and pinned by [golden
